@@ -1,37 +1,35 @@
 <!-- Order Card 1 -->
 <div class="col-12 col-lg-6 col-xl-4">
-    <div class="card order-card">
+    <div class="card order-card h-100">
         <div class="card-header bg-transparent border-0 pb-2">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="order-number">#1001</div>
+                    <div class="order-number">#{{ $number }}</div>
                     <div>
-                        <h6 class="mb-0 fw-semibold">Pedido #1001</h6>
+                        <h6 class="mb-0 fw-semibold">Pedido #{{ $number }}</h6>
                         <small class="text-muted d-flex align-items-center gap-1">
                             <i class="bi bi-clock"></i>
-                            09:45
+                            {{ $time }}
                         </small>
                     </div>
                 </div>
-                <span class="status-badge status-preparing">
+                <span class="status-badge status-{{ $statusClass }}">
                     <i class="bi bi-tools"></i>
-                    Preparando
+                    {{ $status }}
                 </span>
             </div>
         </div>
 
-        <div class="card-body pt-0">
+        <div class="card-body pt-0 d-flex flex-column">
             <!-- Cliente -->
             <div class="d-flex gap-2 mb-3">
                 <i class="bi bi-person text-muted mt-1"></i>
                 <div class="flex-grow-1">
-                    <p class="mb-0 fw-medium small">Maria Silva</p>
-                    <p class="mb-0 text-muted" style="font-size: 0.75rem;">(11) 99999-9999</p>
+                    <p class="mb-0 fw-medium small">{{ $clientName }}</p>
+                    <p class="mb-0 text-muted" style="font-size: 0.75rem;">{{ $clientPhone }}</p>
                     <div class="d-flex gap-1 mt-1">
                         <i class="bi bi-geo-alt text-muted" style="font-size: 0.75rem;"></i>
-                        <p class="mb-0 text-muted" style="font-size: 0.75rem;">Rua das Flores, 123
-                            -
-                            Vila Madalena</p>
+                        <p class="mb-0 text-muted" style="font-size: 0.75rem;">{{ $clientAddress }}</p>
                     </div>
                 </div>
             </div>
@@ -42,7 +40,25 @@
                     style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
                     Itens</h6>
                 <div class="small">
+                    @foreach ($products as $item)
+                        <div class="d-flex justify-content-between mb-1">
+                            <div>
+                                <span class="fw-medium">{{ $item->pivot->quantity }}x {{ $item->name }}</span>
+                                @if ($item->pivot->observation)
+                                    <div class="text-muted" style="font-size: 0.75rem; font-style: italic;">
+                                        Obs: {{ $item->pivot->observation }}</div>
+                                @endif
+                            </div>
+                            <span class="fw-medium">R$ {{ $item->price }}</span>
+                        </div>
+                    @endforeach
                     <div class="d-flex justify-content-between mb-1">
+                        <div>
+                            <span class="fw-light">Taxa de entrega</span>
+                        </div>
+                        <span class="fw-medium">R$ {{ $deliveryFee }}</span>
+                    </div>
+                    {{-- <div class="d-flex justify-content-between mb-1">
                         <div>
                             <span class="fw-medium">2x X-Bacon</span>
                             <div class="text-muted" style="font-size: 0.75rem; font-style: italic;">
@@ -57,20 +73,23 @@
                     <div class="d-flex justify-content-between">
                         <span class="fw-medium">2x Coca-Cola</span>
                         <span class="fw-medium">R$ 11,00</span>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
             <!-- Total -->
-            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                <div class="d-flex align-items-center gap-1">
-                    <i class="bi bi-currency-dollar text-primary-custom"></i>
-                    <span class="fw-bold fs-5 text-primary-custom">R$ 60,80</span>
+            <div class="mt-auto">
+                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                    <div class="d-flex align-items-center gap-1">
+                        <i class="bi bi-currency-dollar text-primary-custom"></i>
+                        <span class="fw-bold fs-5 text-primary-custom">R$
+                            {{ number_format($totalValue, 2, ',', '.') }}</span>
+                    </div>
+                    <small class="text-muted d-flex align-items-center gap-1">
+                        <i class="bi bi-clock"></i>
+                        ~{{ $timeAgo }}
+                    </small>
                 </div>
-                <small class="text-muted d-flex align-items-center gap-1">
-                    <i class="bi bi-clock"></i>
-                    ~25 min
-                </small>
             </div>
         </div>
     </div>
