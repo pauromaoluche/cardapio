@@ -8,75 +8,27 @@
             <p class="text-muted mb-0">Gerencie os pedidos da sua lanchonete</p>
         </div>
 
-        <!-- Statistics Cards -->
         <div class="row g-4 mb-5">
-            <x-status-card />
-            <x-status-card />
-            <x-status-card />
-            <x-status-card />
-            {{-- <div class="col-12 col-sm-6 col-lg-3">
-                <div class="card stat-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label">Pedidos Pendentes</p>
-                                <p class="stat-value">1</p>
-                            </div>
-                            <div class="stat-icon bg-warning-custom text-warning">
-                                <i class="bi bi-clock"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="card stat-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label">Em Preparo</p>
-                                <p class="stat-value">1</p>
-                            </div>
-                            <div class="stat-icon bg-info-custom text-info">
-                                <i class="bi bi-bag"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="card stat-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label">Prontos</p>
-                                <p class="stat-value">1</p>
-                            </div>
-                            <div class="stat-icon bg-success-custom text-success">
-                                <i class="bi bi-check-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-3">
-                <div class="card stat-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <p class="stat-label">Faturamento Hoje</p>
-                                <p class="stat-value text-primary-custom">R$ 146,70</p>
-                            </div>
-                            <div class="stat-icon bg-primary-custom text-primary-custom">
-                                <i class="bi bi-graph-up"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
+            <livewire:dashboard.components.status-card
+                title="Pedidos Pendentes"
+                icon="bi bi-clock"
+                bg="warning-custom text-warning"
+            />
+            <livewire:dashboard.components.status-card
+                title="Em Preparo"
+                icon="bi bi-bag"
+                bg="info-custom text-info"
+            />
+            <livewire:dashboard.components.status-card
+                title="Prontos"
+                icon="bi bi-check-circle"
+                bg="success-custom text-success"
+            />
+            <livewire:dashboard.components.status-card
+                title="Faturamento Hoje"
+                icon="bi bi-graph-up"
+                bg="primary-custom text-primary-custom"
+            />
         </div>
 
         <!-- Orders Section -->

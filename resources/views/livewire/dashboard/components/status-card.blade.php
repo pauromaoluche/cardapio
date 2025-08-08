@@ -3,11 +3,11 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <p class="stat-label">Pedidos Pendentes</p>
+                    <p class="stat-label">{{ $title }}</p>
                     <p class="stat-value">1</p>
                 </div>
-                <div class="stat-icon bg-warning-custom text-warning">
-                    <i class="bi bi-clock"></i>
+                <div class="stat-icon bg-{{ $bg }}">
+                    <i class="{{ $icon }}"></i>
                 </div>
             </div>
         </div>
