@@ -20,6 +20,7 @@
 <body>
     <header>
     </header>
+    @include('dashboard.layouts._sidebar')
     <div class="main-content" style="margin-left: 250px;">
         @include('dashboard.layouts._header')
         <main>
