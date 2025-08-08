@@ -8,15 +8,7 @@
             <p class="text-muted mb-0">Gerencie os pedidos da sua lanchonete</p>
         </div>
 
-        <div class="row g-4 mb-5">
-            <livewire:dashboard.components.status-card title="Pedidos Pendentes" icon="bi bi-clock"
-                bg="warning-custom text-warning" />
-            <livewire:dashboard.components.status-card title="Em Preparo" icon="bi bi-bag" bg="info-custom text-info" />
-            <livewire:dashboard.components.status-card title="Prontos" icon="bi bi-check-circle"
-                bg="success-custom text-success" />
-            <livewire:dashboard.components.status-card title="Faturamento Hoje" icon="bi bi-graph-up"
-                bg="primary-custom text-primary-custom" />
-        </div>
+        <livewire:dashboard.components.status-cards />
 
         <!-- Orders Section -->
         <div class="mb-4">
