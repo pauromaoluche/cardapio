@@ -33,7 +33,7 @@ class StatusSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Finalizado',
+                'name' => 'Entregue',
                 'active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -286,3 +286,14 @@ body {
 .sidebar-toggle:hover {
     color: var(--primary-color);
 }
+
+
+.filter-btn.active {
+        background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-card);
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

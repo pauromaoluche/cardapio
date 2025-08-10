@@ -1,6 +1,6 @@
 <!-- Order Card 1 -->
-<div class="col-12 col-lg-6 col-xl-4">
-    <div class="card order-card h-100">
+<div class="{{ $colClass }}">
+    <div class="card order-card {{ $h }} shadow bg-body-tertiary rounded">
         <div class="card-header bg-transparent border-0 pb-2">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-3">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <span class="status-badge status-{{ $statusClass }}">
-                    <i class="bi bi-tools"></i>
+                    <i class="bi {{ $iconStep }}"></i>
                     {{ $status }}
                 </span>
             </div>

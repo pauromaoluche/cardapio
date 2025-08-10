@@ -23,7 +23,7 @@
     @include('dashboard.layouts._sidebar')
     <div class="main-content" style="margin-left: 250px;">
         @include('dashboard.layouts._header')
-        <main>
+        <main class="p-4">
             @yield('content')
         </main>
     </div>
