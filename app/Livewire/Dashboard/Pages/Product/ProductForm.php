@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Pages\Product;
 
 use App\Models\Image;
 use App\Models\Product;
+use App\Services\ProductService;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -20,6 +21,14 @@ class ProductForm extends Component
     public $successMessage;
     public $product;
     public array $imagesToRemove = [];
+
+    private ProductService $productService;
+
+
+    public function __construct()
+    {
+        $this->productService = new ProductService();
+    }
 
     protected function rules()
     {
@@ -60,7 +69,7 @@ class ProductForm extends Component
     public function mount($id = null)
     {
         if ($id) {
-            $this->product = Product::with('images')->findOrFail($id);
+            $this->product = $this->productService->findById($id);
             $this->name = $this->product->name;
             $this->description = $this->product->description;
             $this->price = $this->product->price;
@@ -96,48 +105,31 @@ class ProductForm extends Component
     {
         $this->validate();
 
-        if ($this->product) {
-            $this->product->update([
-                'name' => $this->name,
-                'description' => $this->description,
-                'price' => $this->price,
-            ]);
-            $product = $this->product;
-        } else {
-            $product = Product::create([
-                'name' => $this->name,
-                'description' => $this->description,
-                'price' => $this->price,
-            ]);
-        }
+        $data = [
+            'name' => $this->name,
+            'description' => $this->description,
+            'price' => $this->price,
+        ];
 
-        if ($product && !empty($this->images)) {
-            foreach ($this->images as $image) {
-                $path = $image->store('products', 'public');
-                $product->images()->create(['path' => $path]);
+        try {
+            if ($this->product) {
+                $product = $this->productService->update($this->product->id, $data, $this->images, $this->imagesToRemove);
+                $this->product = $product;
+            } else {
+                $product = $this->productService->store($data, $this->images);
             }
-        }
-        if (!empty($this->imagesToRemove)) {
-            $instances = Image::whereIn('id', $this->imagesToRemove)->get();
 
-
-            foreach ($instances as $instance) {
-
-                if (Storage::disk('public')->exists($instance->path)) {
-                    Storage::disk('public')->delete($instance->path);
-                }
-
-                $instance->delete();
+            if ($addOther) {
+                session()->flash('success', 'Produto ' . ($this->product ? 'atualizado' : 'criado') . ' com sucesso! Adicione outro.');
+                return redirect()->route('dashboard.product.create');
             }
-        }
+            session()->flash('success', $this->product ? 'Produto atualizado com sucesso!' : 'Produto criado com sucesso!');
+            return redirect()->route('dashboard.product');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Ocorreu um erro ao salvar o produto. Por favor, tente novamente. Se persistir, contate o administrador');
 
-
-        if ($addOther) {
-            session()->flash('success', 'Produto ' . ($this->product ? 'atualizado' : 'criado') . ' com sucesso! Adicione outro.');
-            return redirect()->route('dashboard.product.create');
+            return redirect()->route('dashboard.product');
         }
-        session()->flash('success', $this->product ? 'Produto atualizado com sucesso!' : 'Produto criado com sucesso!');
-        return redirect()->route('dashboard.product');
     }
 
     public function render()

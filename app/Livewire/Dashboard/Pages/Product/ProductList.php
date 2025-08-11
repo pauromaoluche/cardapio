@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Pages\Product;
 
 use App\Models\Product;
+use App\Services\ProductService;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -10,9 +11,9 @@ class ProductList extends Component
 {
     public $products;
 
-    public function mount()
+    public function mount(ProductService $productService)
     {
-        $this->products = Product::with('images')->get();
+        $this->products = $productService->getAll();
     }
 
     #[Title('Produtos')]
