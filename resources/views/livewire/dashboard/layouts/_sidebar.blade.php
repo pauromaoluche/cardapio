@@ -35,6 +35,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link @if (request()->routeIs('dashboard.promotion')) active @endif"
+                    href="{{ route('dashboard.promotion') }}" wire:navigate>
+                    <i class="bi bi-people"></i>
+                    <span>Promoções</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#relatorios">
                     <i class="bi bi-graph-up"></i>
                     <span>Relatórios</span>
