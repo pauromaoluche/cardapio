@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div>
     <div class="card">
         <div class="card-header bg-custom text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
