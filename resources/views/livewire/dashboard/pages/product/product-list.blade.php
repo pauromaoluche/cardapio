@@ -31,8 +31,12 @@
         <tbody>
             @foreach ($products as $item)
                 <tr>
-                    <td><img src="{{ asset('storage/' . $item->images[0]->path) }}"
-                            class="img-thumbnail img-product-list"></td>
+                    <td>
+                        @if ($item->images->count() > 0)
+                            <img src="{{ asset('storage/' . $item->images[0]->path) }}"
+                                class="img-thumbnail img-product-list">
+                        @endif
+                    </td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->description }}</td>
                     <td>{{ $item->price }}</td>
