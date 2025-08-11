@@ -4,6 +4,7 @@ namespace App\Livewire\Dashboard\Components;
 
 use App\Models\Order;
 use App\Models\Status;
+use App\Services\OrderService;
 use Livewire\Component;
 
 class RecentOrders extends Component
@@ -50,34 +51,16 @@ class RecentOrders extends Component
         $this->search = $search;
     }
 
-    public function render()
+    public function render(OrderService $orderService)
     {
-        $query = Order::with(['products', 'status'])->latest();
-
-        if ($this->filter !== 'all') {
-            $status = $this->statuses->firstWhere('name', $this->filter);
-            if ($status) {
-                $query->where('status_id', $status->id);
-            }
-        }
-
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('client_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('client_phone', 'like', '%' . $this->search . '%')
-                    ->orWhere('id', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('products', function ($q) {
-                        $q->where('name', 'like', '%' . $this->search . '%');
-                    });
-            });
-        }
-
-        if ($this->limit !== null) {
-            $query->limit($this->limit);
-        }
+        $orders = $orderService->getAll(
+            filter: $this->filter,
+            search: $this->search,
+            limit: $this->limit
+        );
 
         return view('livewire.dashboard.components.recent-orders', [
-            'orders' => $query->get(),
+            'orders' => $orders,
         ]);
     }
 }
