@@ -306,11 +306,11 @@ th {
     background: var(--primary-color) !important;
 }
 
-.product-list td {
+.table-list td {
     vertical-align: middle;
 }
 
-.img-product-list {
+.img-table-list {
     width: 60px;
     height: 60px;
 }
