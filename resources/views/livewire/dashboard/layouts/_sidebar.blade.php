@@ -28,16 +28,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if (request()->routeIs('dashboard')) active @endif"
+                <a class="nav-link @if (request()->routeIs('dashboard.product')) active @endif"
                     href="{{ route('dashboard.product') }}" wire:navigate>
                     <i class="bi bi-people"></i>
                     <span>Produtos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#clientes">
-                    <i class="bi bi-people"></i>
-                    <span>Clientes</span>
                 </a>
             </li>
             <li class="nav-item">
