@@ -3,21 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FoodAdmin - Painel de Administração</title>
+    <title>{{ $title ?? 'FoodAdmin - Painel de Administração' }}</title>
+
     <meta name="description"
         content="Sistema de gerenciamento para lanchonetes - Controle de pedidos, clientes e relatórios">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
     @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/js/app.js'])
-
 </head>
 
 <body>
+    @include('livewire.dashboard.layouts._sidebar')
+    <div class="main-content" style="margin-left: 250px;">
+        @include('livewire.dashboard.layouts._header')
+        <main class="p-4">
+            {{ $slot }}
+        </main>
+    </div>
+</body>
+
+</html>
+
+
+{{-- <body>
     <header>
     </header>
     @include('dashboard.layouts._sidebar')
@@ -29,4 +38,4 @@
     </div>
 </body>
 
-</html>
+</html> --}}

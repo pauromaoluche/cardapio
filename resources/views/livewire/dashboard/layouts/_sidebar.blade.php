@@ -14,15 +14,24 @@
     <div class="sidebar-nav">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('dashboard.index')) active @endif" href="{{ route('dashboard.index') }}" wire:navigate>
+                <a class="nav-link @if (request()->routeIs('dashboard.index')) active @endif"
+                    href="{{ route('dashboard.index') }}" wire:navigate>
                     <i class="bi bi-house"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('dashboard.order')) active @endif" href="{{ route('dashboard.order') }}" wire:navigate>
+                <a class="nav-link @if (request()->routeIs('dashboard.order')) active @endif"
+                    href="{{ route('dashboard.order') }}" wire:navigate>
                     <i class="bi bi-bag"></i>
                     <span>Pedidos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if (request()->routeIs('dashboard')) active @endif"
+                    href="{{ route('dashboard.product') }}" wire:navigate>
+                    <i class="bi bi-people"></i>
+                    <span>Produtos</span>
                 </a>
             </li>
             <li class="nav-item">
