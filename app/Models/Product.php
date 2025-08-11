@@ -19,6 +19,13 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    public function promotions(): BelongsToMany
+    {
+        return $this->belongsToMany(Promotion::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
