@@ -85,12 +85,7 @@
                     @endif
                 </div>
                 <div class="d-flex justify-content-end">
-                    <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <button type="button" class="btn btn-primary" wire:click="save(true)">Salvar e adicionar
-                            outro</button>
-                        <a href="{{ route('dashboard.product') }}" type="button" class="btn btn-danger">Voltar</a>
-                    </div>
+                    <x-btn-group-form route="{{ route('dashboard.product') }}" />
                 </div>
             </form>
         </div>

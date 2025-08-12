@@ -3,7 +3,7 @@
         <div class="card-header bg-custom text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
                 <i class="bi bi-tags me-2"></i>
-                Editar Produto
+                {{ $promotion ? 'Editar' : 'Criar' }} Promoção
             </h5>
         </div>
         <div class="card-body">
@@ -225,23 +225,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="d-flex gap-3 justify-content-end">
-                            <button type="button" class="btn btn-secondary">
-                                <i class="bi bi-x me-2"></i>
-                                Cancelar
-                            </button>
-                            <button type="button" class="btn btn-secondary">
-                                <i class="bi bi-save me-2"></i>
-                                Salvar Rascunho
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-circle me-2"></i>
-                                Criar Promoção
-                            </button>
-                        </div>
-                    </div>
+                <div class="mt-4 d-flex justify-content-end">
+                    <x-btn-group-form route="{{ route('dashboard.promotion') }}" />
                 </div>
             </form>
         </div>

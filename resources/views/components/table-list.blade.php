@@ -20,19 +20,14 @@
             <tr>
                 <td>
                     @if ($item->images->count() > 0)
-                        <img src="{{ asset('storage/' . $item->images[0]->path) }}"
-                            class="img-thumbnail img-table-list">
+                        <img src="{{ asset('storage/' . $item->images[0]->path) }}" class="img-thumbnail img-table-list">
                     @endif
                 </td>
                 @foreach ($fields as $field)
                     <td>{{ data_get($item, $field) }}</td>
                 @endforeach
                 <td class="text-center">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route($route, ['id' => $item->id]) }}"
-                            class="btn btn-success">Editar</a>
-                        <button type="button" class="btn btn-danger">Remover</button>
-                    </div>
+                    <x-btn-group-list route="{{ route($route, ['id' => $item->id]) }}" />
                 </td>
             </tr>
         @endforeach
