@@ -28,4 +28,11 @@ class Order extends Model
             ->withPivot('quantity', 'observation')
             ->withTimestamps();
     }
+
+    public function promotions(): BelongsToMany
+{
+    return $this->belongsToMany(Promotion::class)
+        ->withPivot('quantity')
+        ->withTimestamps();
+}
 }
