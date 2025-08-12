@@ -2,10 +2,7 @@
 
 namespace App\Livewire\Dashboard\Pages\Product;
 
-use App\Models\Image;
-use App\Models\Product;
 use App\Services\ProductService;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 

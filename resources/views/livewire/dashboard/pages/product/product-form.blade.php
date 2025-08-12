@@ -1,9 +1,18 @@
 <div>
+    @if (session()->has('success'))
+        <div class="alert alert-success mt-3">
+            {{ session('success') }}
+        </div>
+    @elseif (session()->has('error'))
+        <div class="alert alert-danger mt-3">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-header bg-custom text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
                 <i class="bi bi-tags me-2"></i>
-                Editar Produto
+                {{ $product ? 'Editar' : 'Criar' }} Produto
             </h5>
         </div>
         <div class="card-body">
@@ -45,7 +54,8 @@
                     <label for="images" class="form-label">
                         Imagens do produto (máx. 4)
                     </label>
-                    <input type="file" class="form-control" id="images" accept="image/png, image/gif, image/jpeg, image/jpg" multiple wire:model.live="images">
+                    <input type="file" class="form-control" id="images"
+                        accept="image/png, image/gif, image/jpeg, image/jpg" multiple wire:model.live="images">
 
                     @error('images')
                         <span class="text-danger">{{ $message }}</span>
