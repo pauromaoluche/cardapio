@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Models\Product;
 use App\Traits\ImageHandling;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProductService
 {
@@ -23,21 +26,56 @@ class ProductService
 
     public function store(array $data): Product
     {
-        $product = Product::create($data);
+        DB::beginTransaction();
 
-        $this->handleImages($product, $data['images'], [], 'product');
+        try {
+            $product = Product::create($data);
 
-        return $product;
+            $this->handleImages($product, $data['images'], [], 'product');
+
+            DB::commit();
+
+            return $product;
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+
+            Log::channel('promotion')->error('Erro ao criar produto.', [
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'data' => $data,
+            ]);
+            throw $e;
+        }
     }
 
     public function update(int $id, array $data, array $imagesToRemove = []): bool
     {
-        $instance = Product::findOrFail($id);
+        DB::beginTransaction();
 
-        $updated = $instance->update($data);
+        try {
+            $instance = Product::findOrFail($id);
 
-        $this->handleImages($instance, $data['images'], $imagesToRemove, 'product');
+            $updated = $instance->update($data);
 
-        return $updated;
+            $this->handleImages($instance, $data['images'], $imagesToRemove, 'product');
+
+            DB::commit();
+
+            return $updated;
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+
+            Log::channel('promotion')->error("Erro ao atualizar a produto #{$id}.", [
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'data_received' => $data,
+                'images_removed' => $imagesToRemove,
+            ]);
+            throw $e;
+        }
     }
 }
