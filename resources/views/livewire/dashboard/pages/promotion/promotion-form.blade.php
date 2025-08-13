@@ -85,6 +85,18 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="isActive"
+                                    wire:model.defer="form.active" @if ($form->active) ? checked @endif>
+                                <label class="form-check-label" for="isActive">
+                                    Promoção Ativa
+                                </label>
+                                @error('form.active')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <div class="mb-3">
