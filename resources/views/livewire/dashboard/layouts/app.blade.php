@@ -10,7 +10,7 @@
     <meta name="description"
         content="Sistema de gerenciamento para lanchonetes - Controle de pedidos, clientes e relatórios">
 
-    @vite(['resources/css/app.css', 'resources/css/admin.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/dashboard/admin.css', 'resources/css/dashboard/responsive.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -24,18 +24,3 @@
 </body>
 
 </html>
-
-
-{{-- <body>
-    <header>
-    </header>
-    @include('dashboard.layouts._sidebar')
-    <div class="main-content" style="margin-left: 250px;">
-        @include('dashboard.layouts._header')
-        <main class="p-4">
-            @yield('content')
-        </main>
-    </div>
-</body>
-
-</html> --}}
