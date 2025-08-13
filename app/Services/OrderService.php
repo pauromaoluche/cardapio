@@ -11,7 +11,7 @@ class OrderService
 {
     public function getAll(?string $filter = null, ?string $search = null, ?int $limit = null): Collection
     {
-        $query = Order::with(['products', 'status'])->latest();
+        $query = Order::with(['products', 'status'])->latest()->whereDate('created_at', today());
 
         if ($filter && $filter !== 'all') {
             $status = Status::firstWhere('name', $filter);
