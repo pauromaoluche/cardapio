@@ -172,6 +172,7 @@ return [
         'title' => 'título',
         'username' => 'usuário',
         'year' => 'ano',
+        'selected_products' => 'produtos na promoção'
     ],
 
 ];

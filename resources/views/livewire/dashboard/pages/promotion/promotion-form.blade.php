@@ -188,11 +188,13 @@
                                     <input type="search" class="form-control" id="productSearch"
                                         placeholder="Buscar produtos...">
                                 </div>
-
+                                @error('form.selected_products')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                                 <div class="row">
                                     @foreach ($products as $item)
                                         <div class="col-md-6 col-lg-4 py-2" wire:key="product-{{ $item->id }}">
-                                            <div class="product-item card p-2 @if (array_search($item->id, array_column($selectedProducts, 'id')) !== false) selected @endif"
+                                            <div class="product-item card p-2 @if (array_search($item->id, array_column($form->selected_products, 'id')) !== false) selected @endif"
                                                 wire:click="toggleProductPromotion({{ $item->id }})">
 
                                                 <div class="d-flex align-items-center">
@@ -205,13 +207,13 @@
                                                     </div>
                                                 </div>
 
-                                                @if (array_search($item->id, array_column($selectedProducts, 'id')) !== false)
+                                                @if (array_search($item->id, array_column($form->selected_products, 'id')) !== false)
                                                     <div class="mt-2" wire:ignore.self>
                                                         <label for="quantity-{{ $item->id }}"
                                                             class="form-label mb-0">Quantidade na promoção:</label>
                                                         <input type="number" class="form-control form-control-sm"
                                                             id="quantity-{{ $item->id }}" min="1"
-                                                            wire:model.live="selectedProducts.{{ array_search($item->id, array_column($selectedProducts, 'id')) }}.quantity"
+                                                            wire:model.live="form.selected_products.{{ array_search($item->id, array_column($form->selected_products, 'id')) }}.quantity"
                                                             wire:key="quantity-input-{{ $item->id }}" @click.stop>
                                                     </div>
                                                 @endif

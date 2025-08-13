@@ -45,7 +45,7 @@ class PromotionForm extends Component
                 $this->updateExistingImageCount();
 
                 foreach ($this->promotion->products as $product) {
-                    $this->selectedProducts[] = ['id' => $product->id, 'quantity' => $product->pivot->quantity];
+                    $this->form->selected_products[] = ['id' => $product->id, 'quantity' => $product->pivot->quantity];
                 }
             }
         }
@@ -93,14 +93,15 @@ class PromotionForm extends Component
 
     public function toggleProductPromotion($productId)
     {
-        $key = array_search($productId, array_column($this->selectedProducts, 'id'));
+        $key = array_search($productId, array_column($this->form->selected_products, 'id'));
 
         if ($key !== false) {
-            unset($this->selectedProducts[$key]);
-            $this->selectedProducts = array_values($this->selectedProducts);
+            unset($this->form->selected_products[$key]);
+            $this->form->selected_products = array_values($this->form->selected_products);
         } else {
-            $this->selectedProducts[] = ['id' => $productId, 'quantity' => 1];
+            $this->form->selected_products[] = ['id' => $productId, 'quantity' => 1];
         }
+        $this->validateOnly('form.selected_products');
     }
 
     public function save(bool $addOther = false)
@@ -112,10 +113,10 @@ class PromotionForm extends Component
         try {
             if ($this->form->promotionId) {
                 unset($data['promotionId']);
-                $this->promotionService->update($this->form->promotionId, $data, $this->selectedProducts, $this->imagesToRemove);
+                $this->promotionService->update($this->form->promotionId, $data, $this->imagesToRemove);
             } else {
                 unset($data['promotionId']);
-                $this->promotionService->store($data, $this->selectedProducts);
+                $this->promotionService->store($data);
             }
 
             if ($addOther) {

@@ -24,7 +24,7 @@ class PromotionService
         return Promotion::with(['images', 'products'])->where('id', $id)->firstOrFail();
     }
 
-    public function store(array $data, array $products): Promotion
+    public function store(array $data): Promotion
     {
         DB::beginTransaction();
 
@@ -32,7 +32,7 @@ class PromotionService
             $instance = Promotion::create($data);
 
             $attachData = [];
-            foreach ($products as $item) {
+            foreach ($data['selected_products'] as $item) {
                 $product = Product::find($item['id']);
                 if ($product) {
                     $attachData[$product->id] = ['quantity' => $item['quantity'] ?? 1];
@@ -62,7 +62,7 @@ class PromotionService
         }
     }
 
-    public function update(int $id, array $data, array $products, array $imagesToRemove): bool
+    public function update(int $id, array $data, array $imagesToRemove): bool
     {
 
         DB::beginTransaction();
@@ -74,7 +74,7 @@ class PromotionService
             $updated = $instance->update($data);
 
             $attachData = [];
-            foreach ($products as $item) {
+            foreach ($data['selected_products'] as $item) {
                 $product = Product::find($item['id']);
                 if ($product) {
                     $attachData[$product->id] = ['quantity' => $item['quantity'] ?? 1];

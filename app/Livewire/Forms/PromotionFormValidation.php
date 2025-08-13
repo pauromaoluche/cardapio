@@ -21,6 +21,7 @@ class PromotionFormValidation extends Form
     public $images = [];
     public $existingImageCount = 0;
     public array $imagesToRemove = [];
+    public $selected_products = [];
 
     public function rules()
     {
@@ -37,6 +38,7 @@ class PromotionFormValidation extends Form
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after:start_date'],
             'active' => ['boolean'],
+            'selected_products' => ['required', 'array', 'min:1'],
 
             'images' => [
                 'nullable',
