@@ -20,8 +20,6 @@ class PromotionForm extends Component
 
     public array $selectedProducts = [];
     public array $imagesToRemove = [];
-    public $existingImages = [];
-
 
     protected ProductService $productService;
     protected PromotionService $promotionService;
@@ -38,12 +36,10 @@ class PromotionForm extends Component
     {
         $this->products = $this->productService->getAll();
 
-        $this->id = $id;
-
-        if ($this->id) {
-            $this->promotion = $this->promotionService->findById($this->id);
+        if ($id) {
+            $this->promotion = $this->promotionService->findById($id);
             if ($this->promotion) {
-                $this->form->promotionId = $this->id;
+                $this->form->promotionId = $id;
                 $this->form->fill($this->promotion);
 
                 $this->updateExistingImageCount();
@@ -114,10 +110,10 @@ class PromotionForm extends Component
             }
 
             if ($addOther) {
-                session()->flash('success', 'Produto ' . ($this->product ? 'atualizado' : 'criado') . ' com sucesso! Adicione outro.');
+                session()->flash('success', 'Promoção ' . ($this->product ? 'atualizada' : 'criada') . ' com sucesso! Adicione outra.');
                 return redirect()->route('dashboard.promotion.create');
             }
-            session()->flash('status', 'Promoção salva com sucesso!');
+            session()->flash('success', $this->product ? 'Promoção atualizada com sucesso!' : 'Promoção criada com sucesso!');
             return redirect()->route('dashboard.promotion');
         } catch (\Exception $e) {
             session()->flash('error', 'Ocorreu um erro ao salvar a promoção. Por favor, tente novamente. Se persistir, contate o administrador' . $e->getMessage());
