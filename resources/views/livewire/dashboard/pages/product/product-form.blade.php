@@ -23,8 +23,8 @@
                         Nome <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="form-control" id="name" placeholder="Ex: X-Burger"
-                        wire:model.live="name">
-                    @error('name')
+                        wire:model.live="form.name">
+                    @error('form.name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -32,8 +32,8 @@
                 <div class="mb-3">
                     <label for="description" class="form-label">Descrição</label>
                     <textarea class="form-control" id="description" rows="3" placeholder="Descreva os detalhes do produto..."
-                        wire:model.live="description"></textarea>
-                    @error('description')
+                        wire:model.live="form.description"></textarea>
+                    @error('form.description')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -43,9 +43,9 @@
                     <div class="input-group">
                         <span class="input-group-text">R$</span>
                         <input type="number" class="form-control" id="price" placeholder="0,00" min="0"
-                            step="0.01" wire:model.live="price">
+                            step="0.01" wire:model.live="form.price">
                     </div>
-                    @error('price')
+                    @error('form.price')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -55,12 +55,12 @@
                         Imagens do produto (máx. 4)
                     </label>
                     <input type="file" class="form-control" id="images"
-                        accept="image/png, image/gif, image/jpeg, image/jpg" multiple wire:model.live="images">
+                        accept="image/png, image/gif, image/jpeg, image/jpg" multiple wire:model="images">
 
-                    @error('images')
+                    @error('form.images')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-                    @error('images.*')
+                    @error('form.images.*')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
 

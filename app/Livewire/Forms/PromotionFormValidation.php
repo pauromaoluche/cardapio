@@ -56,4 +56,13 @@ class PromotionFormValidation extends Form
             'images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'images.*.image' => 'O arquivo selecionado deve ser uma imagem.',
+            'images.*.mimes' => 'A imagem deve ser dos tipos: jpeg, png, jpg ou gif.',
+            'images.*.max' => 'Cada imagem não pode ter mais que 2MB.',
+        ];
+    }
 }

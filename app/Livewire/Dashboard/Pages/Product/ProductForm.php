@@ -2,118 +2,98 @@
 
 namespace App\Livewire\Dashboard\Pages\Product;
 
+use App\Livewire\Forms\ProductFormValidation;
 use App\Services\ProductService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class ProductForm extends Component
 {
 
     use WithFileUploads;
 
-    public $name;
-    public $description;
-    public $price;
-    public $images = [];
-    public $successMessage;
     public $product;
+    public $images = [];
+
+    public array $selectedProducts = [];
     public array $imagesToRemove = [];
 
-    private ProductService $productService;
+    protected ProductService $productService;
 
+    public ProductFormValidation $form;
 
-    public function __construct()
+    public function boot(ProductService $productService)
     {
-        $this->productService = new ProductService();
+        $this->productService = $productService;
     }
 
-    protected function rules()
-    {
-        return [
-            'name' => 'required|string|max:255|unique:products,name,' . ($this->product->id ?? 'null'),
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'images' => [
-                'nullable',
-                'array',
-                function ($attribute, $value, $fail) {
-                    $existingImageCount = ($this->product?->images->count() ?? 0) - count($this->imagesToRemove);
-                    // $existingImageCount = $this->product?->images->count() ?? 0;
-
-                    $newImageCount = is_array($value) ? count($value) : 0;
-
-                    $totalImagesAfterUpdate = $existingImageCount + $newImageCount;
-
-                    if ($totalImagesAfterUpdate > 4) {
-                        $fail('O número total de imagens (existentes + novas) não pode ser superior a 4.');
-                    }
-                    if ($totalImagesAfterUpdate < 1) {
-                        $fail('O produto deve ter pelo menos uma imagem.');
-                    }
-                },
-            ],
-        ];
-    }
-
-    protected $messages = [
-        'images.max' => 'Você pode carregar no máximo 4 arquivos.',
-        'images.*.image' => 'O arquivo deve ser uma imagem.',
-        'images.*.mimes' => 'A imagem deve ser dos tipos: jpeg, png, jpg, gif.',
-        'images.*.max' => 'Cada imagem não pode ter mais que 2MB.',
-    ];
-
-    public function mount($id = null)
+    public function mount(?int $id = null)
     {
         if ($id) {
             $this->product = $this->productService->findById($id);
-            $this->name = $this->product->name;
-            $this->description = $this->product->description;
-            $this->price = $this->product->price;
+            if ($this->product) {
+                $this->form->productId = $id;
+                $this->form->fill($this->product);
+
+                $this->updateExistingImageCount();
+            }
         }
     }
 
-    public function updated($propertyName)
+    public function updated($property)
     {
-        $this->validateOnly($propertyName);
+        if (Str::startsWith($property, 'form.')) {
+            $this->validateOnly($property);
+        }
+        if ($property == 'images') {
+            $this->form->images = $this->images;
+            $this->validateOnly('form.' . $property);
+        }
     }
 
     public function removeImageTemporary($index)
     {
         if (isset($this->images[$index])) {
             unset($this->images[$index]);
-            $this->images = array_values($this->images);
-            // $this->resetErrorBag('images');
-            $this->validateOnly('images');
+            $this->form->images = $this->images;
+            $this->validateOnly('form.images');
         }
     }
 
-    public function toggleImageRemoval(int $imageId): void
+    public function toggleImageRemoval($imageId)
     {
-        if (($key = array_search($imageId, $this->imagesToRemove)) !== false) {
-            unset($this->imagesToRemove[$key]);
+        if (in_array($imageId, $this->imagesToRemove)) {
+            $this->imagesToRemove = array_diff($this->imagesToRemove, [$imageId]);
         } else {
             $this->imagesToRemove[] = $imageId;
         }
-        $this->validateOnly('images');
+
+        $this->updateExistingImageCount();
+        $this->validateOnly('form.images');
+    }
+
+    public function updateExistingImageCount()
+    {
+        $existingCount = $this->product->images->count();
+        $removedCount = count($this->imagesToRemove);
+        $this->form->existingImageCount = $existingCount - $removedCount;
+        $this->form->images = $this->images;
     }
 
     public function save(bool $addOther = false)
     {
         $this->validate();
 
-        $data = [
-            'name' => $this->name,
-            'description' => $this->description,
-            'price' => $this->price,
-        ];
+        $data = $this->form->all();
 
         try {
-            if ($this->product) {
-                $product = $this->productService->update($this->product->id, $data, $this->images, $this->imagesToRemove);
-                $this->product = $product;
+            if ($this->form->productId) {
+                unset($data['productId']);
+                $this->productService->update($this->product->id, $data, $this->imagesToRemove);
             } else {
-                $product = $this->productService->store($data, $this->images);
+                unset($data['productId']);
+                $this->productService->store($data);
             }
 
             if ($addOther) {
