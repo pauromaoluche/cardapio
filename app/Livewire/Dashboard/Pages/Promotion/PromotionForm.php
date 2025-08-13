@@ -7,6 +7,7 @@ use App\Services\ProductService;
 use App\Services\PromotionService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class PromotionForm extends Component
 {
@@ -49,10 +50,16 @@ class PromotionForm extends Component
             }
         }
     }
-    public function updatedImages($propertyName)
+
+    public function updated($property)
     {
-        $this->form->images = $this->images;
-        $this->validate();
+        if (Str::startsWith($property, 'form.')) {
+            $this->validateOnly($property);
+        }
+        if ($property == 'images') {
+            $this->form->images = $this->images;
+            $this->validateOnly('form.' .$property);
+        }
     }
 
     public function removeImageTemporary($index)
@@ -60,7 +67,7 @@ class PromotionForm extends Component
         if (isset($this->images[$index])) {
             unset($this->images[$index]);
             $this->form->images = $this->images;
-            $this->validate();
+            $this->validateOnly('form.images');
         }
     }
 
@@ -73,7 +80,7 @@ class PromotionForm extends Component
         }
 
         $this->updateExistingImageCount();
-        $this->validate();
+        $this->validateOnly('form.images');
     }
 
     public function updateExistingImageCount()
@@ -117,8 +124,8 @@ class PromotionForm extends Component
             }
             session()->flash('success', $this->promotion ? 'Promoção atualizada com sucesso!' : 'Promoção criada com sucesso!');
             return redirect()->route('dashboard.promotion');
-        } catch (\Exception $e) {
-            session()->flash('error', 'Ocorreu um erro ao salvar a promoção. Por favor, tente novamente. Se persistir, contate o administrador' . $e->getMessage());
+        } catch (\Throwable $e) {
+            session()->flash('error', 'Ocorreu um erro ao salvar a promoção. Por favor, tente novamente. Se persistir, contate o administrador.');
 
             return redirect()->route('dashboard.promotion');
         }
