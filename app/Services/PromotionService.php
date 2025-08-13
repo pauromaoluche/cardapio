@@ -102,4 +102,31 @@ class PromotionService
             throw $e;
         }
     }
+
+    public function destroy(int $id): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            $instance = Promotion::findOrFail($id);
+
+            $this->deleteModelImages($instance);
+
+            $delete = $instance->delete();
+
+            DB::commit();
+
+            return $delete;
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+
+            Log::channel('promotion')->error("Erro ao excluir a promoão #{$id}.", [
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]);
+            throw $e;
+        }
+    }
 }
