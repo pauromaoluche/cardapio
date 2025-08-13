@@ -34,4 +34,23 @@ trait ImageHandling
             throw $e;
         }
     }
+
+    protected function deleteModelImages(Model $instance): void
+    {
+        if (method_exists($instance, 'images')) {
+            try {
+                $instance->load('images');
+
+                foreach ($instance->images as $image) {
+                    if (Storage::disk('public')->exists($image->path)) {
+                        Storage::disk('public')->delete($image->path);
+                    }
+
+                    $image->delete();
+                }
+            } catch (Throwable $e) {
+                throw $e;
+            }
+        }
+    }
 }

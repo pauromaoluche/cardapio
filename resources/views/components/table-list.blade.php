@@ -27,7 +27,7 @@
                     <td>{{ data_get($item, $field) }}</td>
                 @endforeach
                 <td class="text-center">
-                    <x-btn-group-list route="{{ route($route, ['id' => $item->id]) }}" />
+                    <x-btn-group-list :route="$route" :id="$item->id" />
                 </td>
             </tr>
         @endforeach

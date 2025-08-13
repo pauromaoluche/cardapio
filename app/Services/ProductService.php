@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Traits\ImageHandling;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -40,7 +41,7 @@ class ProductService
 
             DB::rollBack();
 
-            Log::channel('promotion')->error('Erro ao criar produto.', [
+            Log::channel('product')->error('Erro ao criar produto.', [
                 'error_message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
@@ -68,12 +69,45 @@ class ProductService
 
             DB::rollBack();
 
-            Log::channel('promotion')->error("Erro ao atualizar a produto #{$id}.", [
+            Log::channel('product')->error("Erro ao atualizar a produto #{$id}.", [
                 'error_message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'data_received' => $data,
                 'images_removed' => $imagesToRemove,
+            ]);
+            throw $e;
+        }
+    }
+
+    public function destroy(int $id): bool
+    {
+        DB::beginTransaction();
+
+        try {
+            $instance = Product::findOrFail($id);
+
+            if ($instance->promotions()->exists()) {
+
+                $promotionNames = $instance->promotions->pluck('title')->implode(', ');
+                throw new Exception("Este produto está vinculado às seguintes promoções e não pode ser excluído: [{$promotionNames}], remova ele das promoções para poder excluir.");
+            }
+
+            $this->deleteModelImages($instance);
+
+            $delete = $instance->delete();
+
+            DB::commit();
+
+            return $delete;
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            Log::channel('product')->error("Erro ao excluir a produto #{$id}.", [
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
             ]);
             throw $e;
         }
