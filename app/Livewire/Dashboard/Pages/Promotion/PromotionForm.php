@@ -13,10 +13,9 @@ class PromotionForm extends Component
 
     use WithFileUploads;
 
-    public ?int $id = null;
     public $products = [];
     public $promotion;
-    // public $images = [];
+    public $images = [];
 
     public array $selectedProducts = [];
     public array $imagesToRemove = [];
@@ -50,15 +49,17 @@ class PromotionForm extends Component
             }
         }
     }
-    public function updated($propertyName)
+    public function updatedImages($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->form->images = $this->images;
+        $this->validate();
     }
 
     public function removeImageTemporary($index)
     {
-        if (isset($this->form->images[$index])) {
-            unset($this->form->images[$index]);
+        if (isset($this->images[$index])) {
+            unset($this->images[$index]);
+            $this->form->images = $this->images;
             $this->validate();
         }
     }
@@ -80,6 +81,7 @@ class PromotionForm extends Component
         $existingCount = $this->promotion->images->count();
         $removedCount = count($this->imagesToRemove);
         $this->form->existingImageCount = $existingCount - $removedCount;
+        $this->form->images = $this->images;
     }
 
     public function toggleProductPromotion($productId)
@@ -110,10 +112,10 @@ class PromotionForm extends Component
             }
 
             if ($addOther) {
-                session()->flash('success', 'Promoção ' . ($this->product ? 'atualizada' : 'criada') . ' com sucesso! Adicione outra.');
+                session()->flash('success', 'Promoção ' . ($this->promotion ? 'atualizada' : 'criada') . ' com sucesso! Adicione outra.');
                 return redirect()->route('dashboard.promotion.create');
             }
-            session()->flash('success', $this->product ? 'Promoção atualizada com sucesso!' : 'Promoção criada com sucesso!');
+            session()->flash('success', $this->promotion ? 'Promoção atualizada com sucesso!' : 'Promoção criada com sucesso!');
             return redirect()->route('dashboard.promotion');
         } catch (\Exception $e) {
             session()->flash('error', 'Ocorreu um erro ao salvar a promoção. Por favor, tente novamente. Se persistir, contate o administrador' . $e->getMessage());
