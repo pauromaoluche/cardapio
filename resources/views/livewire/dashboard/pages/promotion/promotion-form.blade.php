@@ -186,7 +186,7 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <input type="search" class="form-control" id="productSearch"
-                                        placeholder="Buscar produtos...">
+                                        placeholder="Buscar produtos..." wire:model.live="search">
                                 </div>
                                 @error('form.selected_products')
                                     <span class="text-danger">{{ $message }}</span>

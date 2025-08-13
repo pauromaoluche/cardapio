@@ -8,7 +8,9 @@ use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Builder;
 use Throwable;
+
 
 class ProductService
 {
@@ -111,5 +113,16 @@ class ProductService
             ]);
             throw $e;
         }
+    }
+
+    public function search(?string $search = null): Collection
+    {
+        $query = product::with('images');
+
+        if (!empty($search)) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        return $query->get();
     }
 }

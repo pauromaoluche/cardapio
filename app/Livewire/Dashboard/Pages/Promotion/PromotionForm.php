@@ -17,6 +17,7 @@ class PromotionForm extends Component
     public $products = [];
     public $promotion;
     public $images = [];
+    public $search = '';
 
     public array $selectedProducts = [];
     public array $imagesToRemove = [];
@@ -58,7 +59,7 @@ class PromotionForm extends Component
         }
         if ($property == 'images') {
             $this->form->images = $this->images;
-            $this->validateOnly('form.' .$property);
+            $this->validateOnly('form.' . $property);
         }
     }
 
@@ -102,6 +103,11 @@ class PromotionForm extends Component
             $this->form->selected_products[] = ['id' => $productId, 'quantity' => 1];
         }
         $this->validateOnly('form.selected_products');
+    }
+
+    public function updatedSearch()
+    {
+        $this->products = $this->productService->search($this->search);
     }
 
     public function save(bool $addOther = false)
