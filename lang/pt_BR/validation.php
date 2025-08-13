@@ -172,7 +172,12 @@ return [
         'title' => 'título',
         'username' => 'usuário',
         'year' => 'ano',
-        'selected_products' => 'produtos na promoção'
+        'selected_products' => 'produtos na promoção',
+        'start_date' => 'data de inicio',
+        'end_date' => 'data final',
+        'discount_value' => 'valor de desconto',
+        'discount_type' => 'tipo de desconto',
+        'price' => 'preço'
     ],
 
 ];

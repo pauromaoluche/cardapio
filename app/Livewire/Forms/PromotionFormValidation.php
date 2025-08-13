@@ -51,7 +51,7 @@ class PromotionFormValidation extends Form
                         $fail('O número total de imagens (existentes + novas) não pode ser superior a 4.');
                     }
                     if ($totalImagesAfterUpdate < 1) {
-                        $fail('O produto deve ter pelo menos uma imagem.');
+                        $fail('A promoção deve ter pelo menos uma imagem.');
                     }
                 },
             ],

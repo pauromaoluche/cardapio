@@ -11,7 +11,7 @@ class ProductFormValidation extends Form
     public ?int $productId = null;
     public $name;
     public $description;
-    public $price;
+    public $price = 0;
 
     public $images = [];
     public $existingImageCount = 0;
@@ -28,7 +28,7 @@ class ProductFormValidation extends Form
                 Rule::unique('products', 'name')->ignore($this->productId),
             ],
             'description' => ['required', 'string', 'min:10'],
-            'price' => ['required', 'numeric', 'min:0'],
+            'price' => ['required', 'numeric', 'min:0.01'],
 
             'images' => [
                 'nullable',
