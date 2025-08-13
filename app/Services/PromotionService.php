@@ -6,6 +6,9 @@ use App\Models\Product;
 use App\Models\Promotion;
 use App\Traits\ImageHandling;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class PromotionService
 {
@@ -23,45 +26,80 @@ class PromotionService
 
     public function store(array $data, array $products): Promotion
     {
-        $instance = Promotion::create($data);
+        DB::beginTransaction();
 
-        $attachData = [];
-        foreach ($products as $item) {
-            $product = Product::find($item['id']);
-            if ($product) {
-                $attachData[$product->id] = ['quantity' => $item['quantity'] ?? 1];
+        try {
+            $instance = Promotion::create($data);
+
+            $attachData = [];
+            foreach ($products as $item) {
+                $product = Product::find($item['id']);
+                if ($product) {
+                    $attachData[$product->id] = ['quantity' => $item['quantity'] ?? 1];
+                }
             }
+
+            if (!empty($attachData)) {
+                $instance->products()->attach($attachData);
+            }
+
+            $this->handleImages($instance, $data['images'], [], 'promotion');
+
+            DB::commit();
+
+            return $instance;
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+
+            Log::channel('promotion')->error('Erro ao criar promoção.', [
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'data' => $data,
+            ]);
+            throw $e;
         }
-
-        if (!empty($attachData)) {
-            $instance->products()->attach($attachData);
-        }
-
-        $this->handleImages($instance, $data['images'], [], 'promotion');
-
-        return $instance;
     }
 
     public function update(int $id, array $data, array $products, array $imagesToRemove): bool
     {
-        $instance = Promotion::findOrFail($id);
 
-        $updated = $instance->update($data);
+        DB::beginTransaction();
 
-        // Monta o array para sync
-        $attachData = [];
-        foreach ($products as $item) {
-            $product = Product::find($item['id']);
-            if ($product) {
-                $attachData[$product->id] = ['quantity' => $item['quantity'] ?? 1];
+        try {
+
+            $instance = Promotion::findOrFail($id);
+
+            $updated = $instance->update($data);
+
+            $attachData = [];
+            foreach ($products as $item) {
+                $product = Product::find($item['id']);
+                if ($product) {
+                    $attachData[$product->id] = ['quantity' => $item['quantity'] ?? 1];
+                }
             }
+
+            // Atualiza o pivot (remove e adiciona conforme necessário)
+            $instance->products()->sync($attachData);
+
+            $this->handleImages($instance, $data['images'], $imagesToRemove, 'promotion');
+
+            DB::commit();
+
+            return $updated;
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            Log::channel('promotion')->error("Erro ao atualizar a promoção #{$id}.", [
+                'error_message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'data_received' => $data,
+                'images_removed' => $imagesToRemove,
+            ]);
+            throw $e;
         }
-
-        // Atualiza o pivot (remove e adiciona conforme necessário)
-        $instance->products()->sync($attachData);
-
-        $this->handleImages($instance, $data['images'], $imagesToRemove, 'promotion');
-
-        return $updated;
     }
 }
