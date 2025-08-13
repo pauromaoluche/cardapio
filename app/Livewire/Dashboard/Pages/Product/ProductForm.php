@@ -16,7 +16,6 @@ class ProductForm extends Component
     public $product;
     public $images = [];
 
-    public array $selectedProducts = [];
     public array $imagesToRemove = [];
 
     protected ProductService $productService;
