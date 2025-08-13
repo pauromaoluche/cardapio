@@ -127,6 +127,20 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-    ],
+        'promotion' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/promotion/promotion.log'),
+        ],
 
+        'product' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/product/product.log'),
+        ],
+
+        'order' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/order/order.log'),
+        ],
+
+    ],
 ];
