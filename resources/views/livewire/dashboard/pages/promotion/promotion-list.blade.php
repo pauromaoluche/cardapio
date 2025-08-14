@@ -13,5 +13,5 @@
             route="{{ route('dashboard.promotion.create') }}" />
     </div>
 
-    <x-table-list :cols="['Nome', 'Descrição', 'Data de Inicio', 'Data de Termino']" :fields="['title', 'description', 'start_date', 'end_date']" route="dashboard.promotion.edit" :data="$promotions" />
+    <x-table-list :cols="['Nome', 'Descrição', 'Data de Inicio', 'Data de Termino']" :fields="['title', 'description', 'start_date', 'end_date']" :hiddenFields="['description', 'start_date', 'end_date']" route="dashboard.promotion.edit" :data="$promotions" />
 </div>

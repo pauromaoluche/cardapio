@@ -1,4 +1,4 @@
-<div class="col-12 col-sm-6 col-lg-3">
+<div class="col-12 col-sm-6 col-md-6 col-lg-3 col-lg-3">
     <div class="card stat-card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start">

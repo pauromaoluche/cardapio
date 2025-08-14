@@ -82,7 +82,7 @@
                 <div class="d-flex justify-content-between align-items-center pt-2 border-top">
                     <div class="d-flex align-items-center gap-1">
                         <i class="bi bi-currency-dollar text-primary-custom"></i>
-                        <span class="fw-bold fs-5 text-primary-custom">R$
+                        <span class="fw-bold fs-5 text-primary-custom total-value">R$
                             {{ number_format($totalValue, 2, ',', '.') }}</span>
                     </div>
                     <small class="text-muted d-flex align-items-center gap-1">

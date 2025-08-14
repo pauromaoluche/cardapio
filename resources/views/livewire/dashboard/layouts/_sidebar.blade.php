@@ -1,4 +1,4 @@
-<div class="sidebar position-fixed start-0 top-0 h-100" id="sidebar" style="width: 250px; z-index: 1000;">
+<div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <div class="sidebar-brand">
             <div class="brand-icon">

@@ -12,5 +12,5 @@
         <x-hero title="Produtos" description="Gerencie seus produtos" route="{{ route('dashboard.product.create') }}" />
     </div>
 
-    <x-table-list :cols="['Nome', 'Descrição', 'Preço']" :fields="['name', 'description', 'price']" route="dashboard.product.edit" :data="$products" />
+    <x-table-list :cols="['Nome', 'Descrição', 'Preço']" :fields="['name', 'description', 'price']" :hiddenFields="['description', 'price']" route="dashboard.product.edit" :data="$products" />
 </div>

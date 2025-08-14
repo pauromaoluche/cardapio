@@ -10,17 +10,19 @@
     <meta name="description"
         content="Sistema de gerenciamento para lanchonetes - Controle de pedidos, clientes e relatórios">
 
-    @vite(['resources/css/app.css', 'resources/css/dashboard/admin.css', 'resources/css/dashboard/responsive.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/dashboard/admin.css', 'resources/css/dashboard/responsive.css'])
 </head>
 
 <body>
     @include('livewire.dashboard.layouts._sidebar')
-    <div class="main-content" style="margin-left: 250px;">
+    <div class="main-content">
         @include('livewire.dashboard.layouts._header')
         <main class="p-4">
             {{ $slot }}
         </main>
     </div>
+    @vite(['resources/js/dashboard/app.js'])
+     @stack('scripts')
 </body>
 
 </html>

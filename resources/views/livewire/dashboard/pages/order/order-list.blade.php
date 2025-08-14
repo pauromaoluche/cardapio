@@ -25,7 +25,7 @@
             <livewire:dashboard.components.filter />
 
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 mt-3 mt-sm-3 mt-md-3 mt-lg-0">
             <livewire:dashboard.components.search-filter />
         </div>
     </div>
