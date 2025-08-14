@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Dashboard\Pages\Auth\AuthForm;
 use App\Livewire\Dashboard\Pages\Home\Index as IndexHome;
 use App\Livewire\Dashboard\Pages\Order\OrderList;
 use App\Livewire\Dashboard\Pages\Product\ProductForm;
@@ -12,7 +13,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', IndexHome::class)->name('index');
     Route::get('/pedidos', OrderList::class)->name('order');
 
@@ -24,3 +25,5 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/promocoes/adicionar', PromotionForm::class)->name('promotion.create');
     Route::get('/promocao/editar/{id}', PromotionForm::class)->name('promotion.edit');
 });
+
+Route::get('login', AuthForm::class)->name('login');
