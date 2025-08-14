@@ -1,5 +1,6 @@
 :root {
     --primary: 24 100% 50%;
+    --primary-dark: 20 91% 48%;
     --primary-foreground: 0 0% 98%;
     --secondary: 210 40% 98%;
     --secondary-foreground: 222.2 84% 4.9%;
@@ -58,18 +59,27 @@ body {
         hsl(24 100% 50% / 0.1),
         hsl(24 100% 60% / 0.05)
     );
-    min-height: 100vh;
+    /* min-height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    line-height: 1.6;
 }
 
 .login-container {
-    width: 500px;
-    padding: 0 1rem;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-card {
+    width: 500px;
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
     border-radius: var(--radius);
@@ -288,6 +298,183 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.hero-banner {
+    background: linear-gradient(
+        135deg,
+        hsl(var(--primary)) 0%,
+        hsl(var(--primary-dark)) 100%
+    );
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.categories-nav {
+    background: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-tabs {
+    border: none;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.nav-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    margin: 0 0.25rem;
+    background: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-tabs .nav-link:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--foreground));
+}
+
+.nav-tabs .nav-link.active {
+    background: hsl(var(--primary));
+    color: white;
+    box-shadow: 0 4px 12px hsla(var(--primary), 0.3);
+}
+
+.menu-section {
+    padding: 1.5rem 0;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid hsl(var(--border));
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: hsl(var(--primary));
+}
+
+.add-btn {
+    background: hsl(var(--primary));
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: hsl(var(--primary-dark));
+    transform: scale(1.05);
+}
+
+.container-custom {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.badge {
+    background: hsl(var(--destructive));
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.badge.promotion {
+    background: hsl(var(--primary));
 }
 
 @keyframes spin {

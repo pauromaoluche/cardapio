@@ -1,5 +1,5 @@
 @media (max-width: 576px) {
-    .login-container {
+    .login-card {
         width: 400px;
     }
 
@@ -19,25 +19,28 @@
     .logo-text {
         font-size: 1.25rem;
     }
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .product-card .row {
+        align-items: center;
+    }
 }
 
 @media (max-width: 400px) {
-    .login-container {
+    .login-card {
         width: 350px;
-    }
-
-    login-card {
-        padding: 0px;
     }
 }
 
-
 @media (max-width: 350px) {
-    .login-container {
-        width: 300px;
-    }
-
-    login-card {
-        padding: 0px;
+    .login-card {
+        width: auto;
     }
 }
