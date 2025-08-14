@@ -11,6 +11,6 @@
         <p class="text-muted-foreground mb-0">{{ $description }}</p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{{ $route }}" :wire.navigate class="btn btn-success">Adicionar</a>
+        <a href="{{ $route }}" wire:navigate class="btn btn-success">Adicionar</a>
     </div>
 </div>
