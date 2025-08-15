@@ -9,7 +9,8 @@
 <table class="table table-list">
     <thead>
         <tr>
-            <th class="d-none d-sm-table-cell" scope="col">Foto</th>
+            <th class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-none d-sm-table-cell' }}" scope="col">Foto
+            </th>
             @foreach ($cols as $index => $col)
                 <th class="{{ in_array($fields[$index], $hiddenFields) ? 'd-none d-md-table-cell' : '' }}" scope="col">
                     {{ $col }}</th>
@@ -20,8 +21,8 @@
     <tbody>
         @foreach ($data as $item)
             <tr>
-                <td class="d-none d-sm-table-cell">
-                    @if ($item->images->count() > 0)
+                <td class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-none d-sm-table-cell' }}">
+                    @if (!empty($item->images))
                         <img src="{{ asset('storage/' . $item->images[0]->path) }}" class="img-thumbnail img-table-list">
                     @endif
                 </td>
