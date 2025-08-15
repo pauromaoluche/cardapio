@@ -178,7 +178,8 @@ return [
         'discount_value' => 'valor de desconto',
         'discount_type' => 'tipo de desconto',
         'price' => 'preço',
-        'category_id' => 'categoria'
+        'category_id' => 'categoria',
+        'product_id' => 'produto'
     ],
 
 ];

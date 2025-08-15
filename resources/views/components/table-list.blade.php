@@ -4,6 +4,7 @@
     'route' => null,
     'data' => null,
     'hiddenFields' => [],
+    'imageField' => null,
 ])
 
 <table class="table table-list">
@@ -22,8 +23,11 @@
         @foreach ($data as $item)
             <tr>
                 <td class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-none d-sm-table-cell' }}">
-                    @if (!empty($item->images))
-                        <img src="{{ asset('storage/' . $item->images[0]->path) }}" class="img-thumbnail img-table-list">
+                    @if ($imageField)
+                        <img src="{{ asset('storage/' . data_get($item, $imageField)) }}" class="img-thumbnail img-table-list">
+                    @elseif (!empty($item->images))
+                        <img src="{{ asset('storage/' . $item->images[0]->path) }}"
+                            class="img-thumbnail img-table-list">
                     @endif
                 </td>
                 @foreach ($fields as $field)
