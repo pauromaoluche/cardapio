@@ -177,7 +177,8 @@ return [
         'end_date' => 'data final',
         'discount_value' => 'valor de desconto',
         'discount_type' => 'tipo de desconto',
-        'price' => 'preço'
+        'price' => 'preço',
+        'category_id' => 'categoria'
     ],
 
 ];

@@ -12,6 +12,7 @@ class ProductFormValidation extends Form
     public $name;
     public $description;
     public $price = 0;
+    public $category_id;
 
     public $images = [];
     public $existingImageCount = 0;
@@ -29,6 +30,7 @@ class ProductFormValidation extends Form
             ],
             'description' => ['required', 'string', 'min:10'],
             'price' => ['required', 'numeric', 'min:0.01'],
+            'category_id' => ['required', 'exists:categories,id'],
 
             'images' => [
                 'nullable',

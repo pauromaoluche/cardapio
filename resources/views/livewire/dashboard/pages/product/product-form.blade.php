@@ -38,16 +38,32 @@
                     @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label for="price" class="form-label">Preço do produto</label>
-                    <div class="input-group">
-                        <span class="input-group-text">R$</span>
-                        <input type="number" class="form-control" id="price" placeholder="0,00" min="0"
-                            step="0.01" wire:model.live="form.price">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label">Preço do produto</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" id="price" placeholder="0,00" min="0"
+                                step="0.01" wire:model.live="form.price">
+                        </div>
+                        @error('form.price')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                    @error('form.price')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                    <div class="col-md-6 mb-3">
+                        <label for="category_id" class="form-label">
+                            Categoria do produto <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" id="category_id" wire:model.live="form.category_id">
+                            <option value="">Selecione a categoria</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('form.category_id')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="mb-3">

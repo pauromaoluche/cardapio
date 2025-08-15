@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard\Pages\Product;
 
 use App\Livewire\Forms\ProductFormValidation;
+use App\Services\CategoryService;
 use App\Services\ProductService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -14,21 +15,26 @@ class ProductForm extends Component
     use WithFileUploads;
 
     public $product;
+    public $categories;
     public $images = [];
 
     public array $imagesToRemove = [];
 
     protected ProductService $productService;
+    protected CategoryService $categoryService;
 
     public ProductFormValidation $form;
 
-    public function boot(ProductService $productService)
+    public function boot(ProductService $productService, CategoryService $categoryService)
     {
         $this->productService = $productService;
+        $this->categoryService = $categoryService;
     }
 
     public function mount(?int $id = null)
     {
+        $this->categories = $this->categoryService->getAll();
+
         if ($id) {
             $this->product = $this->productService->findById($id);
             if ($this->product) {
