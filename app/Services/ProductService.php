@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Builder;
 use Throwable;
 
 
@@ -25,6 +24,16 @@ class ProductService
     public function findById(int $id): Product
     {
         return Product::with('images')->where('id', $id)->firstOrFail();
+    }
+
+    public function findByCategory(string $category): Collection
+    {
+        $query = Product::with(['images', 'promotions', 'discount']);
+        if ($category !== 'all') {
+
+            $query->where('category_id', $category);
+        }
+        return $query->get();
     }
 
     public function store(array $data): Product

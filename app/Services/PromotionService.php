@@ -24,6 +24,22 @@ class PromotionService
         return Promotion::with(['images', 'products'])->where('id', $id)->firstOrFail();
     }
 
+    public function getPromotions(string $category): Collection
+    {
+        $query = Promotion::with(['products.images', 'images'])
+            ->where('active', true)
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now());
+
+        if ($category !== 'all') {
+            $query->whereHas('products', function ($q) use ($category) {
+                $q->where('category_id', $category);
+            });
+        }
+
+        return $query->get();
+    }
+
     public function store(array $data): Promotion
     {
         DB::beginTransaction();
