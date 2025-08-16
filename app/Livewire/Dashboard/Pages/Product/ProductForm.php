@@ -8,6 +8,7 @@ use App\Services\ProductService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Title;
 
 class ProductForm extends Component
 {
@@ -114,6 +115,7 @@ class ProductForm extends Component
         }
     }
 
+    #[Title('Adicionar produto')]
     public function render()
     {
         return view('livewire.dashboard.pages.product.product-form')->layout('livewire.dashboard.layouts.app');

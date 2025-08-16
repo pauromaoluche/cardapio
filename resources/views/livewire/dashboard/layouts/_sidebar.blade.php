@@ -28,17 +28,31 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link @if (request()->routeIs('dashboard.category')) active @endif"
+                    href="{{ route('dashboard.category') }}" wire:navigate>
+                    <i class="bi bi-tags"></i>
+                    <span>Categorias</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link @if (request()->routeIs('dashboard.product')) active @endif"
                     href="{{ route('dashboard.product') }}" wire:navigate>
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-box2"></i>
                     <span>Produtos</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link @if (request()->routeIs('dashboard.promotion')) active @endif"
                     href="{{ route('dashboard.promotion') }}" wire:navigate>
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-megaphone"></i>
                     <span>Promoções</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if (request()->routeIs('dashboard.discount')) active @endif"
+                    href="{{ route('dashboard.discount') }}" wire:navigate>
+                    <i class="bi bi-cash"></i>
+                    <span>Descontos</span>
                 </a>
             </li>
             <li class="nav-item">
