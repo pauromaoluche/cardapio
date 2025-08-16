@@ -65,7 +65,7 @@
                     @elseif ($item['type'] === 'promotion')
                         <div class="promotion-modal-content">
                             @if (!empty($item['images']))
-                                <x-web.carousel :items="(count($item['images']) + count($item['products']))">
+                                <x-web.carousel :items="count($item['images']) + count($item['products'])">
                                     <div class="carousel-item active">
                                         <img src="{{ asset('storage/' . $item['images'][0]['path']) }}"
                                             class="d-block image-modal" alt="...">
@@ -78,7 +78,7 @@
                                     @endforeach
                                 </x-web.carousel>
                             @endif
-                            <h6>Itens da Promoção:</h6>
+                            <h6 class="mt-1">Itens da Promoção:</h6>
                             <ul>
                                 @php
                                     $totalPrice = 0;
@@ -92,9 +92,43 @@
                                     @endphp
                                 @endforeach
                             </ul>
-                            <p class="promotion-price fs-5 fw-bold text-success">
-                                Preço da Promoção: R$ {{ number_format($totalPrice, 2, ',', '.') }}
-                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                {{-- @php
+                                    $finalPrice = $item['price'];
+                                    if ($item['discount']['discount_type'] === 'percentage') {
+                                        $finalPrice =
+                                            $finalPrice - $finalPrice * ($item['discount']['discount_value'] / 100);
+                                    } elseif ($item['discount']['discount_type'] === 'fixed') {
+                                        $finalPrice = $finalPrice - $item['discount']['discount_value'];
+                                    }
+                                @endphp
+                                <div class="d-flex align-items-baseline">
+                                    <small class="text-muted text-decoration-line-through pe-2">R$
+                                        {{ number_format($item['price'], 2, ',', '.') }}</small>
+                                    <span class="product-price text-success fw-bold">R$
+                                        {{ number_format($item['price'], 2, ',', '.') }}</span>
+                                </div> --}}
+                                @php
+                                    $finalPrice = $totalPrice;
+
+                                    if ($item['discount_type'] === 'percentage') {
+                                        $finalPrice = $totalPrice - $totalPrice * ($item['discount_value'] / 100);
+                                    } elseif ($item['discount_type'] === 'fixed') {
+                                        $finalPrice = $totalPrice - $item['discount_value'];
+                                    }
+
+                                    if ($finalPrice < 0) {
+                                        $finalPrice = 0;
+                                    }
+                                @endphp
+                                <div class="d-flex align-items-baseline">
+                                    <small class="text-muted text-decoration-line-through pe-2">R$
+                                        {{ number_format($totalPrice, 2, ',', '.') }}</small>
+                                    <span class="product-price text-success fw-bold">R$
+                                        {{ number_format($finalPrice, 2, ',', '.') }}</span>
+                                </div>
+                            </div>
+
                         </div>
                     @endif
                 @else

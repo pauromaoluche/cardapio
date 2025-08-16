@@ -132,5 +132,6 @@
             @endforeach
         </div>
     </div>
+    <livewire:web.components.cart />
     <livewire:web.components.modal-product />
 </div>

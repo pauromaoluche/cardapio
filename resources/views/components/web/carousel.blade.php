@@ -12,11 +12,11 @@
     <div class="carousel-inner">
         {{ $slot }}
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+    <button class="carousel-control-prev carousel-icon-custom" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+    <button class="carousel-control-next carousel-icon-custom" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>

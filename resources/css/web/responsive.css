@@ -55,6 +55,9 @@
     .login-card {
         width: 350px;
     }
+        .cart-body {
+        width: 90%;
+    }
 }
 
 @media (max-width: 350px) {
