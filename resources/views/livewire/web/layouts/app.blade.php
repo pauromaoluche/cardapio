@@ -9,7 +9,7 @@
 
     <meta name="description"
         content="Sistema de gerenciamento para lanchonetes - Controle de pedidos, clientes e relatórios">
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/web/web.css', 'resources/css/web/responsive.css'])
+    @vite(['resources/css/app.css', 'resources/css/web/web.css', 'resources/css/web/responsive.css'])
 </head>
 
 <body>
@@ -19,8 +19,7 @@
     </main>
     @include('livewire.web.layouts._footer')
     </div>
-    @vite(['resources/js/dashboard/app.js'])
-    @stack('scripts')
+    @vite('resources/js/app.js')
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 <div>
     <livewire:web.components.categories />
-
     <div class="container-custom">
         <div class="menu-section">
             <!-- Loop para produtos e promoções -->
@@ -48,8 +47,10 @@
                                             <span class="product-price">R$
                                                 {{ number_format($item['price'], 2, ',', '.') }}</span>
                                         @endif
-                                        <button class="add-btn">
-                                            <i class="fas fa-plus me-1"></i>Adicionar
+                                        <button type="button" class="add-btn"
+                                            wire:click="selectProduct({{ $item['id'] }})" data-bs-toggle="modal"
+                                            data-bs-target="#productModal">
+                                            Adicionar
                                         </button>
                                     </div>
                                 </div>
@@ -108,15 +109,18 @@
                                     <div class="d-flex justify-content-between align-items-center mt-1">
                                         <span class="discount-info">
                                             @if ($item['discount_type'] === 'percentage')
-                                                <small class="text-secondary"> R$
-                                                    {{ $item['discount_value'] }}% OFF</small>
+                                                <small class="text-secondary">Desconto de
+                                                    {{ number_format($item['discount_value'], 1, ',') }}%</small>
                                             @elseif ($item['discount_type'] === 'fixed')
-                                                <small class="text-secondary"> R$
+                                                <small class="text-secondary">Desconto de R$
                                                     {{ number_format($item['discount_value'], 2, ',', '.') }}
                                                     OFF</small>
                                             @endif
                                         </span>
-                                        <button class="add-btn">
+
+                                        <button type="button" class="add-btn"
+                                            wire:click="selectPromotion({{ $item['id'] }})" data-bs-toggle="modal"
+                                            data-bs-target="#productModal">
                                             <i class="fas fa-plus me-1"></i>Adicionar
                                         </button>
                                     </div>
@@ -128,5 +132,5 @@
             @endforeach
         </div>
     </div>
-
+    <livewire:web.components.modal-product />
 </div>

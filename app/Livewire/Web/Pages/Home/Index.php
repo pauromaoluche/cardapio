@@ -10,7 +10,8 @@ class Index extends Component
 {
     public $products;
     public $filter = 'all';
-    public $showModal = false;
+
+    public $selectedItem;
 
     protected ProductService $productService;
     protected PromotionService $promotionService;
@@ -51,6 +52,20 @@ class Index extends Component
             }
             return 3;
         })->values();
+    }
+
+    public function selectProduct($itemId)
+    {
+        $this->selectedItem = collect($this->products)->firstWhere('id', $itemId);
+        $this->dispatch('open-modal', $this->selectedItem);
+    }
+
+    // NOVO MÉTODO: Seleciona a promoção e emite um evento para o modal
+    public function selectPromotion($itemId)
+    {
+        $this->selectedItem = collect($this->products)->firstWhere('id', $itemId);
+        // Emite um evento com os dados do item selecionado.
+        $this->dispatch('open-modal', $this->selectedItem);
     }
 
     public function render()
