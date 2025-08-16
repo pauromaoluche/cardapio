@@ -18,9 +18,9 @@
                     @if ($item['type'] === 'product')
                         <div class="product-modal-content">
                             @if (!empty($item['images']))
-                                <x-web.carousel>
+                                <x-web.carousel :items="count($item['images'])">
                                     @foreach ($item['images'] as $key => $image)
-                                        <div class="carousel-item @if ($key === 0) active @endif"">
+                                        <div class="carousel-item @if ($key === 0) active @endif">
                                             <img src="{{ asset('storage/' . $image['path']) }}"
                                                 class="d-block image-modal" alt="{{ $item['name'] }}">
                                         </div>
@@ -65,12 +65,11 @@
                     @elseif ($item['type'] === 'promotion')
                         <div class="promotion-modal-content">
                             @if (!empty($item['images']))
-                                <x-web.carousel>
+                                <x-web.carousel :items="(count($item['images']) + count($item['products']))">
                                     <div class="carousel-item active">
                                         <img src="{{ asset('storage/' . $item['images'][0]['path']) }}"
                                             class="d-block image-modal" alt="...">
                                     </div>
-
                                     @foreach ($item['products'] as $prod)
                                         <div class="carousel-item">
                                             <img src="{{ asset('storage/' . $prod['images'][0]['path']) }}"
@@ -79,11 +78,6 @@
                                     @endforeach
                                 </x-web.carousel>
                             @endif
-                            {{-- @if (!empty($item['images']))
-                                <img src="{{ asset('storage/' . $item['images'][0]['path']) }}"
-                                    alt="{{ $item['title'] }}" class="img-fluid mb-3 rounded">
-                            @endif --}}
-
                             <h6>Itens da Promoção:</h6>
                             <ul>
                                 @php
@@ -98,7 +92,6 @@
                                     @endphp
                                 @endforeach
                             </ul>
-
                             <p class="promotion-price fs-5 fw-bold text-success">
                                 Preço da Promoção: R$ {{ number_format($totalPrice, 2, ',', '.') }}
                             </p>
