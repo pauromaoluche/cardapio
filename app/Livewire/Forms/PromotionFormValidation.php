@@ -47,7 +47,7 @@ class PromotionFormValidation extends Form
                     $newImageCount = is_array($value) ? count($value) : 0;
                     $totalImagesAfterUpdate = $this->existingImageCount + $newImageCount;
 
-                    if ($totalImagesAfterUpdate > 4) {
+                    if ($totalImagesAfterUpdate > 1) {
                         $fail('O número total de imagens (existentes + novas) não pode ser superior a 4.');
                     }
                     if ($totalImagesAfterUpdate < 1) {
