@@ -8,8 +8,6 @@
             <p class="logo-subtitle">Faça login para continuar</p>
         </div>
 
-
-
         <form id="loginForm" wire:submit.prevent="login">
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
