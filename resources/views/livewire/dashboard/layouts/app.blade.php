@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? 'FoodAdmin - Painel de Administração' }}</title>
+    <title>{{ $title ?? 'Ps - Cardapio - Painel de Administração' }}</title>
 
     <meta name="description"
         content="Sistema de gerenciamento para lanchonetes - Controle de pedidos, clientes e relatórios">
