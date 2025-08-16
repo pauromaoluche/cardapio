@@ -6,5 +6,5 @@
     <button type="submit" class="btn btn-success">Salvar</button>
     <button type="button" class="btn btn-primary" wire:click="save(true)">Salvar e adicionar
         outro</button>
-    <a href="{{ $route }}" type="button" class="btn btn-danger">Voltar</a>
+    <a href="{{ $route }}" wire:navigate type="button" class="btn btn-danger">Voltar</a>
 </div>
