@@ -514,7 +514,7 @@ footer {
 
 .category {
     overflow-x: auto;
-    width: 90%;
+    width: 100%;
 }
 
 #menuTabs {
@@ -523,7 +523,6 @@ footer {
 
 .category .buttons {
     display: flex;
-    justify-content: center;
 }
 
 .buttons button {

@@ -87,7 +87,7 @@
                                         </ul>
                                     </div>
                                     <div class="prices-container mt-2">
-                                        <small class="text-muted text-decoration-line-through">R$
+                                        <small class="text-muted text-decoration-line-through me-2">R$
                                             {{ number_format($totalPrice, 2, ',', '.') }}</small>
                                         @php
                                             $finalPrice = $totalPrice;

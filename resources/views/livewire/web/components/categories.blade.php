@@ -1,5 +1,5 @@
 <section class="categories-nav">
-    <div class="container-custom category">
+    <div class="container category">
         <div class="buttons">
             <!-- Botão "Todos" -->
             <button class="btn filter-btn @if ($filter === 'all') active @endif"
