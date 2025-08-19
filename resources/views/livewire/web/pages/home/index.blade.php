@@ -47,7 +47,6 @@
                                             <span class="product-price">R$
                                                 {{ number_format($item['price'], 2, ',', '.') }}</span>
                                         @endif
-                                        {{ $item['key'] }}
                                         <button type="button" class="add-btn"
                                             wire:click="selectProduct('{{ $item['key'] }}')">
                                             Adicionar
