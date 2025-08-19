@@ -38,8 +38,16 @@ class Index extends Component
         $allProducts = $this->productService->findByCategory($this->filter);
         $allPromotions = $this->promotionService->getPromotions($this->filter);
 
-        $productsWithType = $allProducts->map(fn ($item) => array_merge($item->toArray(), ['type' => 'product']));
-        $promotionsWithType = $allPromotions->map(fn ($item) => array_merge($item->toArray(), ['type' => 'promotion']));
+
+        $productsWithType = $allProducts->map(fn ($item) => array_merge($item->toArray(), [
+            'type' => 'product',
+            'key' => 'product-' . $item['id'],
+        ]));
+
+        $promotionsWithType = $allPromotions->map(fn ($item) => array_merge($item->toArray(), [
+            'type' => 'promotion',
+            'key' => 'promotion-' . $item['id'],
+        ]));
 
         $combinedCollection = $productsWithType->concat($promotionsWithType);
 
@@ -54,18 +62,16 @@ class Index extends Component
         })->values();
     }
 
-    public function selectProduct($itemId)
+    public function selectProduct(string $itemKey)
     {
-        $this->selectedItem = collect($this->products)->firstWhere('id', $itemId);
-        $this->dispatch('open-modal', $this->selectedItem);
+        $this->selectedItem = collect($this->products)->firstWhere('key', $itemKey);
+        $this->dispatch('data-modal', $this->selectedItem);
     }
 
-    // NOVO MÉTODO: Seleciona a promoção e emite um evento para o modal
-    public function selectPromotion($itemId)
+    public function selectPromotion(string $itemKey)
     {
-        $this->selectedItem = collect($this->products)->firstWhere('id', $itemId);
-        // Emite um evento com os dados do item selecionado.
-        $this->dispatch('open-modal', $this->selectedItem);
+        $this->selectedItem = collect($this->products)->firstWhere('key', $itemKey);
+        $this->dispatch('data-modal', $this->selectedItem);
     }
 
     public function render()

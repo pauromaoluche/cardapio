@@ -47,9 +47,9 @@
                                             <span class="product-price">R$
                                                 {{ number_format($item['price'], 2, ',', '.') }}</span>
                                         @endif
+                                        {{ $item['key'] }}
                                         <button type="button" class="add-btn"
-                                            wire:click="selectProduct({{ $item['id'] }})" data-bs-toggle="modal"
-                                            data-bs-target="#productModal">
+                                            wire:click="selectProduct('{{ $item['key'] }}')">
                                             Adicionar
                                         </button>
                                     </div>
@@ -119,8 +119,7 @@
                                         </span>
 
                                         <button type="button" class="add-btn"
-                                            wire:click="selectPromotion({{ $item['id'] }})" data-bs-toggle="modal"
-                                            data-bs-target="#productModal">
+                                            wire:click="selectPromotion('{{ $item['key'] }}')">
                                             <i class="fas fa-plus me-1"></i>Adicionar
                                         </button>
                                     </div>
@@ -132,6 +131,4 @@
             @endforeach
         </div>
     </div>
-    <livewire:web.components.cart />
-    <livewire:web.components.modal-product />
 </div>

@@ -3,7 +3,6 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <!-- Título dinâmico do modal, usando os dados do item -->
                 <h5 class="modal-title" id="productModalLabel">
                     @if ($item)
                         {{ $item['type'] === 'product' ? $item['name'] : $item['title'] }}
@@ -43,7 +42,7 @@
                                         <small class="text-muted text-decoration-line-through pe-2">R$
                                             {{ number_format($item['price'], 2, ',', '.') }}</small>
                                         <span class="product-price text-success fw-bold">R$
-                                            {{ number_format($item['price'], 2, ',', '.') }}</span>
+                                            {{ number_format($finalPrice, 2, ',', '.') }}</span>
                                     </div>
                                 @else
                                     <p class="product-price fs-5 fw-bold">R$
@@ -51,15 +50,7 @@
                                     </p>
                                 @endif
 
-                                <div class="quantity-selector border rounded bg-primary-custom">
-                                    <div class="input-group text-white d-flex align-items-center">
-                                        <button class="btn border-0" type="button"
-                                            wire:click="decreaseQuantity">-</button>
-                                        <span>{{ $quantity }}</span>
-                                        <button class="btn border-0" type="button"
-                                            wire:click="increaseQuantity">+</button>
-                                    </div>
-                                </div>
+                                <x-web.increase-decrease :quantity="$quantity" />
                             </div>
                         </div>
                     @elseif ($item['type'] === 'promotion')
@@ -93,21 +84,6 @@
                                 @endforeach
                             </ul>
                             <div class="d-flex justify-content-between align-items-center">
-                                {{-- @php
-                                    $finalPrice = $item['price'];
-                                    if ($item['discount']['discount_type'] === 'percentage') {
-                                        $finalPrice =
-                                            $finalPrice - $finalPrice * ($item['discount']['discount_value'] / 100);
-                                    } elseif ($item['discount']['discount_type'] === 'fixed') {
-                                        $finalPrice = $finalPrice - $item['discount']['discount_value'];
-                                    }
-                                @endphp
-                                <div class="d-flex align-items-baseline">
-                                    <small class="text-muted text-decoration-line-through pe-2">R$
-                                        {{ number_format($item['price'], 2, ',', '.') }}</small>
-                                    <span class="product-price text-success fw-bold">R$
-                                        {{ number_format($item['price'], 2, ',', '.') }}</span>
-                                </div> --}}
                                 @php
                                     $finalPrice = $totalPrice;
 
@@ -127,6 +103,15 @@
                                     <span class="product-price text-success fw-bold">R$
                                         {{ number_format($finalPrice, 2, ',', '.') }}</span>
                                 </div>
+                                                                <div class="quantity-selector border rounded bg-primary-custom">
+                                    <div class="input-group text-white d-flex align-items-center">
+                                        <button class="btn border-0" type="button"
+                                            wire:click="decreaseQuantity">-</button>
+                                        <span>{{ $quantity }}</span>
+                                        <button class="btn border-0" type="button"
+                                            wire:click="increaseQuantity">+</button>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -136,11 +121,14 @@
                 @endif
                 <div class="obervations">
                     <h6>Observações:</h6>
-                    <textarea class="form-control" rows="3" placeholder="Adicione observações sobre o item..."></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Adicione observações sobre o item..." wire:model.defer="observation"></textarea>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Adicionar ao Carrinho</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" wire:click="addToCart">
+                    Adicionar ao Carrinho
+                </button>
             </div>
         </div>
     </div>
+</div>

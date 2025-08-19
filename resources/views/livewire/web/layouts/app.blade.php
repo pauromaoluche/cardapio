@@ -17,9 +17,11 @@
     <main>
         {{ $slot }}
     </main>
+    <livewire:web.components.cart-off-canvas />
+    <livewire:web.components.modal-product />
+    <livewire:web.components.cart />
     @include('livewire.web.layouts._footer')
-    </div>
-    @vite('resources/js/app.js')
+    @vite('resources/js/web/app.js')
 </body>
 
 </html>
