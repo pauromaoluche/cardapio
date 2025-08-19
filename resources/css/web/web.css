@@ -1,3 +1,24 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/poppins/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/poppins/Poppins-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
 :root {
     --primary: 24 100% 50%;
     --primary-dark: 20 91% 48%;
@@ -52,8 +73,8 @@
 }
 
 body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        sans-serif;
+    /* font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif; */
     background: linear-gradient(
         135deg,
         hsl(24 100% 50% / 0.1),
@@ -64,7 +85,7 @@ body {
     align-items: center;
     justify-content: center; */
     margin: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
     background-color: hsl(var(--secondary));
     color: hsl(var(--foreground));
     line-height: 1.6;
@@ -72,6 +93,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+     font-family: 'Poppins', sans-serif;
 }
 
 .login-container {
@@ -576,6 +598,10 @@ footer {
 }
 
 .cart-container {
+    display: none;
+}
+
+.cart-container.active {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -586,6 +612,7 @@ footer {
     height: 70px;
     z-index: 1000;
     margin-top: auto;
+    background-color: transparent !important;
 }
 
 .cart-body {
@@ -597,12 +624,17 @@ footer {
     align-items: center;
     justify-content: space-between;
     width: 300px;
+    cursor: pointer;
 }
 
-.cart-body .badge{
-    background-color:hsl(var(--primary)) !important;
+.cart-body .badge {
+    background-color: hsl(var(--primary)) !important;
 }
 
 .cart-body button {
     color: white;
+}
+
+.top-image-name span {
+    font-weight: 500;
 }
