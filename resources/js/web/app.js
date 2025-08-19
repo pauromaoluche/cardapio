@@ -16,4 +16,10 @@ document.addEventListener("livewire:init", () => {
         const bsModal = new Modal(modalElement);
         bsModal.show();
     });
+
+    Livewire.on("close-modal", () => {
+        const modalElement = document.getElementById("productModal");
+        const bsModal = Modal.getInstance(modalElement) || new Modal(modalElement);
+        bsModal.hide();
+    });
 });

@@ -86,7 +86,8 @@ class ModalProduct extends Component
             session()->push('cart', $cartItem);
 
             // dd($cartItem);
-            // $this->dispatch('cart-updated');
+            $this->dispatch('active-cart');
+            $this->dispatch('close-modal');
 
             $this->reset(['item', 'quantity', 'observation']);
         }
