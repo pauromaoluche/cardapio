@@ -1,7 +1,7 @@
 <div>
     <livewire:web.components.categories />
     <div class="container-custom">
-        <div class="menu-section" wire.ignore>
+        <div class="menu-section">
             <!-- Loop para produtos e promoções -->
             @foreach ($products as $item)
                 @if ($item['type'] === 'product')

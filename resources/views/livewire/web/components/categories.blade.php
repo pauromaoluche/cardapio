@@ -1,6 +1,6 @@
-<section class="categories-nav" wire.ignore>
+<section class="categories-nav" wire:ignore.self>
     <div class="container category">
-        <div class="buttons">
+        <div class="buttons" wire:ignore.self>
             <!-- Botão "Todos" -->
             <button class="btn filter-btn @if ($filter === 'all') active @endif"
                     wire:click="setCategory('all')">
