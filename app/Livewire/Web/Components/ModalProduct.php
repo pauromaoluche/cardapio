@@ -28,6 +28,7 @@ class ModalProduct extends Component
         $this->item = $itemData;
         $this->quantity = 1;
         $this->observation = '';
+        $this->calculateTotalPrice();
 
         $this->dispatch('active-modal');
     }
@@ -36,12 +37,38 @@ class ModalProduct extends Component
     {
         if ($this->quantity > 1) {
             $this->quantity--;
+            $this->calculateTotalPrice();
         }
     }
 
     public function increaseQuantity()
     {
         $this->quantity++;
+        $this->calculateTotalPrice();
+    }
+
+    private function calculateTotalPrice()
+    {
+        if ($this->item['type'] === 'promotion') {
+            $this->item['price'] = 0;
+            foreach ($this->item['products'] as $promotedProduct) {
+                $this->item['price'] += ($promotedProduct['price'] * $promotedProduct['pivot']['quantity']);
+            }
+
+            if ($this->item['discount_type'] === 'percentage') {
+                $this->item['final_price'] = $this->quantity * ($this->item['price'] - ($this->item['price'] * ($this->item['discount_value'] / 100)));
+            } elseif ($this->item['discount_type'] === 'fixed') {
+                $this->item['final_price'] = ($this->item['price'] - $this->item['discount_value']) * $this->quantity;
+            }
+        } else {
+            if (isset($this->item['discount']) && $this->item['discount']) {
+                if ($this->item['discount']['discount_type'] === 'percentage') {
+                    $this->item['final_price'] = $this->quantity * ($this->item['price'] - ($this->item['price'] * ($this->item['discount']['discount_value'] / 100)));
+                } elseif ($this->item['discount']['discount_type'] === 'fixed') {
+                    $this->item['final_price'] = ($this->item['price'] - $this->item['discount']['discount_value']) * $this->quantity;
+                }
+            }
+        }
     }
 
     public function addToCart()

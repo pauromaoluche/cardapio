@@ -15,7 +15,7 @@
             <div class="modal-body">
                 @if ($item)
                     @if ($item['type'] === 'product')
-                        <div class="product-modal-content" wire:ignore>
+                        <div class="product-modal-content">
                             @if (!empty($item['images']))
                                 <x-web.carousel :items="count($item['images'])">
                                     @foreach ($item['images'] as $key => $image)
@@ -29,26 +29,19 @@
                             <p class="product-description mt-1">{{ $item['description'] }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 @if (!empty($item['discount']))
-                                    @php
-                                        $finalPrice = $item['price'];
-                                        if ($item['discount']['discount_type'] === 'percentage') {
-                                            $finalPrice =
-                                                $finalPrice - $finalPrice * ($item['discount']['discount_value'] / 100);
-                                        } elseif ($item['discount']['discount_type'] === 'fixed') {
-                                            $finalPrice = $finalPrice - $item['discount']['discount_value'];
-                                        }
-                                    @endphp
                                     <div class="d-flex align-items-baseline">
                                         <small class="text-muted text-decoration-line-through pe-2">R$
-                                            {{ number_format($item['price'], 2, ',', '.') }}</small>
+                                            {{ number_format($item['price'] * $quantity, 2, ',', '.') }}</small>
                                         <span class="product-price text-success fw-bold">R$
-                                            {{ number_format($finalPrice, 2, ',', '.') }}</span>
+                                            {{ number_format($item['final_price'], 2, ',', '.') }}</span>
                                     </div>
                                 @else
                                     <p class="product-price fs-5 fw-bold">R$
                                         {{ number_format($item['price'], 2, ',', '.') }}
                                     </p>
                                 @endif
+
+                                {{ $quantity }}
 
                                 <x-web.increase-decrease :quantity="$quantity" />
 
@@ -72,39 +65,20 @@
                             @endif
                             <h6 class="mt-1">Itens da Promoção:</h6>
                             <ul>
-                                @php
-                                    $totalPrice = 0;
-                                @endphp
                                 @foreach ($item['products'] as $promotedProduct)
                                     <li>x{{ $promotedProduct['pivot']['quantity'] }}
                                         {{ $promotedProduct['name'] }}
                                     </li>
-                                    @php
-                                        $totalPrice += $promotedProduct['price'];
-                                    @endphp
                                 @endforeach
                             </ul>
                             <div class="d-flex justify-content-between align-items-center">
-                                @php
-                                    $finalPrice = $totalPrice;
-
-                                    if ($item['discount_type'] === 'percentage') {
-                                        $finalPrice = $totalPrice - $totalPrice * ($item['discount_value'] / 100);
-                                    } elseif ($item['discount_type'] === 'fixed') {
-                                        $finalPrice = $totalPrice - $item['discount_value'];
-                                    }
-
-                                    if ($finalPrice < 0) {
-                                        $finalPrice = 0;
-                                    }
-                                @endphp
                                 <div class="d-flex align-items-baseline">
                                     <small class="text-muted text-decoration-line-through pe-2">R$
-                                        {{ number_format($totalPrice, 2, ',', '.') }}</small>
+                                        {{ number_format($item['price'] * $quantity, 2, ',', '.') }}</small>
                                     <span class="product-price text-success fw-bold">R$
-                                        {{ number_format($finalPrice, 2, ',', '.') }}</span>
+                                        {{ number_format($item['final_price'], 2, ',', '.') }}</span>
                                 </div>
-                               <x-web.increase-decrease :quantity="$quantity" />
+                                <x-web.increase-decrease :quantity="$quantity" />
                             </div>
                         </div>
                     @endif
