@@ -80,7 +80,7 @@ class ModalProduct extends Component
                 'total_price' => $price * $this->quantity,
                 'quantity' => $this->quantity,
                 'observation' => $this->observation ?? '',
-                'data' => $this->item,
+                // 'data' => $this->item,
             ];
 
             session()->push('cart', $cartItem);

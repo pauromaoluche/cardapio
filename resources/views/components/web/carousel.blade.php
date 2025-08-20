@@ -2,7 +2,7 @@
     'items' => 0,
 ])
 
-<div id="carouselImages" class="carousel slide">
+<div id="carouselImages" class="carousel slide" wire:ignore>
     <div class="carousel-indicators">
         @for ($i = 0; $i < $items; $i++)
             <button type="button" data-bs-target="#carouselImages" data-bs-slide-to="{{ $i }}" class="@if ($i === 0) active @endif" aria-current="true"

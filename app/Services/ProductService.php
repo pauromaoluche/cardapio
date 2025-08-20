@@ -23,12 +23,12 @@ class ProductService
 
     public function findById(int $id): Product
     {
-        return Product::with('images')->where('id', $id)->firstOrFail();
+        return Product::with(['images', 'discount'])->where('id', $id)->firstOrFail();
     }
 
     public function findByCategory(string $category): Collection
     {
-        $query = Product::with(['images', 'promotions', 'discount']);
+        $query = Product::with(['images', 'discount']);
         if ($category !== 'all') {
 
             $query->where('category_id', $category);

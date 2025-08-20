@@ -1,4 +1,4 @@
-<section class="categories-nav">
+<section class="categories-nav" wire.ignore>
     <div class="container category">
         <div class="buttons">
             <!-- Botão "Todos" -->

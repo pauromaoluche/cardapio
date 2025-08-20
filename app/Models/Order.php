@@ -30,9 +30,9 @@ class Order extends Model
     }
 
     public function promotions(): BelongsToMany
-{
-    return $this->belongsToMany(Promotion::class)
-        ->withPivot('quantity')
-        ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Promotion::class)
+            ->withPivot('quantity', 'observation')
+            ->withTimestamps();
+    }
 }

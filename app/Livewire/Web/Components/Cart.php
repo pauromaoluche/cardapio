@@ -12,6 +12,7 @@ class Cart extends Component
 
     protected $listeners = [
         'active-cart' => 'activeCart',
+        'desactive-cart' => 'deactivateCart',
     ];
 
     public function mount()
@@ -20,7 +21,7 @@ class Cart extends Component
 
         $this->quantity = count($this->cart);
 
-        if(!empty($this->cart)){
+        if (!empty($this->cart)) {
             $this->active = true;
         }
     }
@@ -31,6 +32,14 @@ class Cart extends Component
 
         $this->quantity = count($this->cart);
         $this->active = true;
+    }
+
+    public function deactivateCart()
+    {
+        $this->active = false;
+        $this->cart = [];
+        $this->quantity = 0;
+        $this->dispatch('close-offcanvas');
     }
 
     public function offcanvas()

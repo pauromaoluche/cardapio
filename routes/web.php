@@ -11,6 +11,7 @@ use App\Livewire\Dashboard\Pages\Product\ProductForm;
 use App\Livewire\Dashboard\Pages\Product\ProductList;
 use App\Livewire\Dashboard\Pages\Promotion\PromotionForm;
 use App\Livewire\Dashboard\Pages\Promotion\PromotionList;
+use App\Livewire\Web\Pages\Checkout\CheckoutForm;
 use App\Livewire\Web\Pages\Home\Index;
 use Illuminate\Support\Facades\Route;
 
@@ -40,4 +41,5 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
 });
 
 Route::get('/', Index::class)->name('index');
+Route::get('finalizar', CheckoutForm::class)->name('checkout');
 Route::get('login', AuthForm::class)->name('login');

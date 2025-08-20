@@ -15,7 +15,7 @@
             <div class="modal-body">
                 @if ($item)
                     @if ($item['type'] === 'product')
-                        <div class="product-modal-content">
+                        <div class="product-modal-content" wire:ignore>
                             @if (!empty($item['images']))
                                 <x-web.carousel :items="count($item['images'])">
                                     @foreach ($item['images'] as $key => $image)
@@ -51,6 +51,7 @@
                                 @endif
 
                                 <x-web.increase-decrease :quantity="$quantity" />
+
                             </div>
                         </div>
                     @elseif ($item['type'] === 'promotion')
@@ -103,17 +104,8 @@
                                     <span class="product-price text-success fw-bold">R$
                                         {{ number_format($finalPrice, 2, ',', '.') }}</span>
                                 </div>
-                                                                <div class="quantity-selector border rounded bg-primary-custom">
-                                    <div class="input-group text-white d-flex align-items-center">
-                                        <button class="btn border-0" type="button"
-                                            wire:click="decreaseQuantity">-</button>
-                                        <span>{{ $quantity }}</span>
-                                        <button class="btn border-0" type="button"
-                                            wire:click="increaseQuantity">+</button>
-                                    </div>
-                                </div>
+                               <x-web.increase-decrease :quantity="$quantity" />
                             </div>
-
                         </div>
                     @endif
                 @else
@@ -121,7 +113,8 @@
                 @endif
                 <div class="obervations">
                     <h6>Observações:</h6>
-                    <textarea class="form-control" rows="3" placeholder="Adicione observações sobre o item..." wire:model.defer="observation"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Adicione observações sobre o item..."
+                        wire:model.defer="observation"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

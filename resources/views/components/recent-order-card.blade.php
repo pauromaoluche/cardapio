@@ -40,6 +40,18 @@
                     style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
                     Itens</h6>
                 <div class="small">
+                    @foreach ($promotions as $promotion)
+                        <div class="d-flex justify-content-between mb-1">
+                            <div>
+                                <span class="fw-medium">{{ $promotion->pivot->quantity }}x {{ $promotion->title }}</span>
+                                @if ($promotion->pivot->observation)
+                                    <div class="text-muted" style="font-size: 0.75rem; font-style: italic;">
+                                        Obs: {{ $promotion->pivot->observation }}</div>
+                                @endif
+                            </div>
+                            <span class="fw-medium">R$ {{ $promotion->price }}</span>
+                        </div>
+                    @endforeach
                     @foreach ($products as $item)
                         <div class="d-flex justify-content-between mb-1">
                             <div>
@@ -58,22 +70,6 @@
                         </div>
                         <span class="fw-medium">R$ {{ $deliveryFee }}</span>
                     </div>
-                    {{-- <div class="d-flex justify-content-between mb-1">
-                        <div>
-                            <span class="fw-medium">2x X-Bacon</span>
-                            <div class="text-muted" style="font-size: 0.75rem; font-style: italic;">
-                                Obs: Sem cebola</div>
-                        </div>
-                        <span class="fw-medium">R$ 37,80</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <span class="fw-medium">1x Batata Frita</span>
-                        <span class="fw-medium">R$ 12,00</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span class="fw-medium">2x Coca-Cola</span>
-                        <span class="fw-medium">R$ 11,00</span>
-                    </div> --}}
                 </div>
             </div>
 
