@@ -10,6 +10,7 @@ export default defineConfig({
             'resources/css/dashboard/admin.css',
             'resources/css/dashboard/responsive.css',
             'resources/js/dashboard/app.js',
+            'resources/js/web/app.js',
             'resources/css/web/web.css',
             'resources/css/web/responsive.css',
         ],
