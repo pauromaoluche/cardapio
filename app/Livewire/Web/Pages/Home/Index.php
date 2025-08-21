@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Web\Pages\Home;
 
+use App\Services\AuxService;
 use App\Services\ProductService;
 use App\Services\PromotionService;
 use Livewire\Component;
@@ -15,15 +16,17 @@ class Index extends Component
 
     protected ProductService $productService;
     protected PromotionService $promotionService;
+    protected AuxService $auxService;
 
     protected $listeners = [
         'setCategory' => 'fetchProducts',
     ];
 
-    public function boot(ProductService $productService, PromotionService $promotionService)
+    public function boot(ProductService $productService, PromotionService $promotionService, AuxService $auxService)
     {
         $this->productService = $productService;
         $this->promotionService = $promotionService;
+        $this->auxService = $auxService;
     }
 
     public function mount()
@@ -51,7 +54,7 @@ class Index extends Component
 
         $combinedCollection = $productsWithType->concat($promotionsWithType);
 
-        $this->products = $combinedCollection->sortBy(function ($item) {
+        $sortedCollection = $combinedCollection->sortBy(function ($item) {
             if ($item['type'] === 'promotion') {
                 return 1;
             }
@@ -60,6 +63,10 @@ class Index extends Component
             }
             return 3;
         })->values();
+
+        $this->products = $sortedCollection->map(function ($item) {
+            return $this->auxService->calculateTotalPrice($item);
+        });
     }
 
     public function selectProduct(string $itemKey)
