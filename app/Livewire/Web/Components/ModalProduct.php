@@ -65,7 +65,8 @@ class ModalProduct extends Component
                 'image' => $this->item['images'][0]['path'],
                 'name' => $this->item['type'] === 'product' ? $this->item['name'] : $this->item['title'],
                 'price' => $this->item['price'],
-                'total_price' => $this->item['final_price'],
+                'final_price' => $this->item['final_price'],
+                'total_price' => $this->item['total_price'],
                 'quantity' => $this->quantity,
                 'observation' => $this->observation ?? ''
             ];

@@ -13,17 +13,24 @@ class AuxService
             }
 
             if ($item['discount_type'] === 'percentage') {
-                $item['final_price'] = $quantity * ($item['price'] - ($item['price'] * ($item['discount_value'] / 100)));
+                $item['total_price'] = $quantity * ($item['price'] - ($item['price'] * ($item['discount_value'] / 100)));
+                $item['final_price'] = $item['price'] - ($item['price'] * ($item['discount_value'] / 100));
             } elseif ($item['discount_type'] === 'fixed') {
-                $item['final_price'] = ($item['price'] - $item['discount_value']) * $quantity;
+                $item['total_price'] = ($item['price'] - $item['discount_value']) * $quantity;
+                $item['final_price'] = $item['price'] - $item['discount_value'];
             }
         } else {
             if (isset($item['discount']) && $item['discount']) {
                 if ($item['discount']['discount_type'] === 'percentage') {
-                    $item['final_price'] = $quantity * ($item['price'] - ($item['price'] * ($item['discount']['discount_value'] / 100)));
+                    $item['total_price'] = $quantity * ($item['price'] - ($item['price'] * ($item['discount']['discount_value'] / 100)));
+                    $item['final_price'] = $item['price'] - ($item['price'] * ($item['discount']['discount_value'] / 100));
                 } elseif ($item['discount']['discount_type'] === 'fixed') {
-                    $item['final_price'] = ($item['price'] - $item['discount']['discount_value']) * $quantity;
+                    $item['total_price'] = ($item['price'] - $item['discount']['discount_value']) * $quantity;
+                    $item['final_price'] = $item['price'] - $item['discount']['discount_value'];
                 }
+            }else{
+                $item['total_price'] = $item['price'] * $quantity;
+                $item['final_price'] = $item['price'];
             }
         }
         return $item;

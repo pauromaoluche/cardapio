@@ -60,11 +60,11 @@
                                     <small class="text-muted text-decoration-line-through pe-2">R$
                                         {{ number_format($item['price'] * $quantity, 2, ',', '.') }}</small>
                                     <span class="product-price text-success fw-bold">R$
-                                        {{ number_format($item['final_price'], 2, ',', '.') }}</span>
+                                        {{ number_format($item['total_price'], 2, ',', '.') }}</span>
                                 </div>
                             @else
                                 <p class="product-price fw-bold">R$
-                                    {{ number_format($item['final_price'], 2, ',', '.') }}
+                                    {{ number_format($item['total_price'], 2, ',', '.') }}
                                 </p>
                             @endif
                             <x-web.increase-decrease :quantity="$quantity" />

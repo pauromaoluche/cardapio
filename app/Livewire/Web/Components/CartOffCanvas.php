@@ -11,8 +11,7 @@ class CartOffCanvas extends Component
     public $totalPrice = 0;
 
     protected $listeners = [
-        'cart-updated' => 'refreshCart',
-        'refresh-cart' => 'refreshCart',
+        'cart-updated' => 'refreshCart'
     ];
 
     public function decreaseQuantity($itemIndex)
@@ -21,7 +20,7 @@ class CartOffCanvas extends Component
         // Verifica se o índice existe no array e se a quantidade é maior que 1
         if (isset($this->cartItems[$itemIndex]) && $this->cartItems[$itemIndex]['quantity'] > 1) {
             $this->cartItems[$itemIndex]['quantity']--;
-            $this->cartItems[$itemIndex]['total_price'] = $this->cartItems[$itemIndex]['price'] * $this->cartItems[$itemIndex]['quantity'];
+            $this->cartItems[$itemIndex]['total_price'] = $this->cartItems[$itemIndex]['final_price'] * $this->cartItems[$itemIndex]['quantity'];
             $this->updateSession();
         }
     }
@@ -32,17 +31,15 @@ class CartOffCanvas extends Component
         // Verifica se o índice existe no array
         if (isset($this->cartItems[$itemIndex])) {
             $this->cartItems[$itemIndex]['quantity']++;
-            $this->cartItems[$itemIndex]['total_price'] = $this->cartItems[$itemIndex]['price'] * $this->cartItems[$itemIndex]['quantity'];
+            $this->cartItems[$itemIndex]['total_price'] = $this->cartItems[$itemIndex]['final_price'] * $this->cartItems[$itemIndex]['quantity'];
             $this->updateSession();
         }
     }
 
     public function removeItem($itemIndex)
     {
-        // Remove o item do array usando o índice
         if (isset($this->cartItems[$itemIndex])) {
             unset($this->cartItems[$itemIndex]);
-            // Re-indexa o array para evitar buracos
             $this->cartItems = array_values($this->cartItems);
             $this->updateSession();
 
@@ -53,7 +50,6 @@ class CartOffCanvas extends Component
         }
     }
 
-    // Atualiza a sessão e recalcula o preço total
     private function updateSession()
     {
         session()->put('cart', $this->cartItems);
@@ -75,7 +71,7 @@ class CartOffCanvas extends Component
     {
         $this->totalPrice = 0;
         foreach ($this->cartItems as $item) {
-            $this->totalPrice += $item['price'] * $item['quantity'];
+            $this->totalPrice += $item['final_price'] * $item['quantity'];
         }
     }
 
