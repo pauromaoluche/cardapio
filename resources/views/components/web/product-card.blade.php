@@ -1,6 +1,6 @@
 @props(['item' => []])
 
-<div class="product-card">
+<div class="product-card" wire:ignore.self>
     <div class="row g-0 p-3">
         <div class="col-auto me-3">
             @if (!empty($item['images']))
