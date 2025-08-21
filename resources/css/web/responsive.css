@@ -58,10 +58,10 @@
         display: none;
     }
 
-    .promotion-price{
+    /* .promotion-price{
         font-size: 1.2rem !important;
         margin-top: 0 !important;
-    }
+    } */
 
     .prices-container{
         display: flex;
