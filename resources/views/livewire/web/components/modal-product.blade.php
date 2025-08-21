@@ -14,9 +14,9 @@
             </div>
             <div class="modal-body">
                 @if ($item)
-                    @if ($item['type'] === 'product')
-                        <div class="product-modal-content">
-                            @if (!empty($item['images']))
+                    <div class="product-modal-content">
+                        @if (!empty($item['images']))
+                            @if ($item['type'] === 'product')
                                 <x-web.carousel :items="count($item['images'])">
                                     @foreach ($item['images'] as $key => $image)
                                         <div class="carousel-item @if ($key === 0) active @endif">
@@ -25,31 +25,7 @@
                                         </div>
                                     @endforeach
                                 </x-web.carousel>
-                            @endif
-                            <p class="product-description mt-1">{{ $item['description'] }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                @if (!empty($item['discount']))
-                                    <div class="d-flex align-items-baseline">
-                                        <small class="text-muted text-decoration-line-through pe-2">R$
-                                            {{ number_format($item['price'] * $quantity, 2, ',', '.') }}</small>
-                                        <span class="product-price text-success fw-bold">R$
-                                            {{ number_format($item['final_price'], 2, ',', '.') }}</span>
-                                    </div>
-                                @else
-                                    <p class="product-price fs-5 fw-bold">R$
-                                        {{ number_format($item['price'], 2, ',', '.') }}
-                                    </p>
-                                @endif
-
-                                {{ $quantity }}
-
-                                <x-web.increase-decrease :quantity="$quantity" />
-
-                            </div>
-                        </div>
-                    @elseif ($item['type'] === 'promotion')
-                        <div class="promotion-modal-content">
-                            @if (!empty($item['images']))
+                            @else
                                 <x-web.carousel :items="count($item['images']) + count($item['products'])">
                                     <div class="carousel-item active">
                                         <img src="{{ asset('storage/' . $item['images'][0]['path']) }}"
@@ -63,25 +39,38 @@
                                     @endforeach
                                 </x-web.carousel>
                             @endif
-                            <h6 class="mt-1">Itens da Promoção:</h6>
-                            <ul>
-                                @foreach ($item['products'] as $promotedProduct)
-                                    <li>x{{ $promotedProduct['pivot']['quantity'] }}
-                                        {{ $promotedProduct['name'] }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <div class="d-flex justify-content-between align-items-center">
+                        @endif
+                        @if ($item['type'] === 'product')
+                            <p class="product-description mt-1">{{ $item['description'] }}</p>
+                        @else
+                            <div class="promotion-items">
+                                <h6 class="mt-1">Itens da Promoção:</h6>
+                                <ul>
+                                    @foreach ($item['products'] as $promotedProduct)
+                                        <li>x{{ $promotedProduct['pivot']['quantity'] }}
+                                            {{ $promotedProduct['name'] }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <div class="d-flex justify-content-between align-items-center">
+                            @if (!empty($item['discount']) || $item['type'] === 'promotion')
                                 <div class="d-flex align-items-baseline">
                                     <small class="text-muted text-decoration-line-through pe-2">R$
                                         {{ number_format($item['price'] * $quantity, 2, ',', '.') }}</small>
                                     <span class="product-price text-success fw-bold">R$
                                         {{ number_format($item['final_price'], 2, ',', '.') }}</span>
                                 </div>
-                                <x-web.increase-decrease :quantity="$quantity" />
-                            </div>
+                            @else
+                                <p class="product-price fw-bold">R$
+                                    {{ number_format($item['final_price'], 2, ',', '.') }}
+                                </p>
+                            @endif
+                            <x-web.increase-decrease :quantity="$quantity" />
+
                         </div>
-                    @endif
+                    </div>
                 @else
                     <p>Selecione um item para ver os detalhes.</p>
                 @endif

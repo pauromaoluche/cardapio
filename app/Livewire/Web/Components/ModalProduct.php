@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Web\Components;
 
+use App\Services\AuxService;
 use Livewire\Component;
-use PhpParser\Node\Stmt\Else_;
 
 class ModalProduct extends Component
 {
@@ -18,6 +18,13 @@ class ModalProduct extends Component
         'data-modal' => 'dataModal'
     ];
 
+    protected AuxService $auxService;
+
+    public function boot(AuxService $auxService)
+    {
+        $this->auxService = $auxService;
+    }
+
     public function mount()
     {
         $this->cart = session()->get('cart', []);
@@ -28,7 +35,7 @@ class ModalProduct extends Component
         $this->item = $itemData;
         $this->quantity = 1;
         $this->observation = '';
-        $this->calculateTotalPrice();
+        $this->item = $this->auxService->calculateTotalPrice($this->item, $this->quantity);
 
         $this->dispatch('active-modal');
     }
@@ -37,77 +44,30 @@ class ModalProduct extends Component
     {
         if ($this->quantity > 1) {
             $this->quantity--;
-            $this->calculateTotalPrice();
+            $this->item = $this->auxService->calculateTotalPrice($this->item, $this->quantity);
         }
     }
 
     public function increaseQuantity()
     {
         $this->quantity++;
-        $this->calculateTotalPrice();
-    }
-
-    private function calculateTotalPrice()
-    {
-        if ($this->item['type'] === 'promotion') {
-            $this->item['price'] = 0;
-            foreach ($this->item['products'] as $promotedProduct) {
-                $this->item['price'] += ($promotedProduct['price'] * $promotedProduct['pivot']['quantity']);
-            }
-
-            if ($this->item['discount_type'] === 'percentage') {
-                $this->item['final_price'] = $this->quantity * ($this->item['price'] - ($this->item['price'] * ($this->item['discount_value'] / 100)));
-            } elseif ($this->item['discount_type'] === 'fixed') {
-                $this->item['final_price'] = ($this->item['price'] - $this->item['discount_value']) * $this->quantity;
-            }
-        } else {
-            if (isset($this->item['discount']) && $this->item['discount']) {
-                if ($this->item['discount']['discount_type'] === 'percentage') {
-                    $this->item['final_price'] = $this->quantity * ($this->item['price'] - ($this->item['price'] * ($this->item['discount']['discount_value'] / 100)));
-                } elseif ($this->item['discount']['discount_type'] === 'fixed') {
-                    $this->item['final_price'] = ($this->item['price'] - $this->item['discount']['discount_value']) * $this->quantity;
-                }
-            }
-        }
+        $this->item = $this->auxService->calculateTotalPrice($this->item, $this->quantity);
     }
 
     public function addToCart()
     {
-        if ($this->item) {
-            $price = 0;
-            $totalPrice = 0;
-            if ($this->item['type'] === 'promotion') {
-                foreach ($this->item['products'] as $promotedProduct) {
-                    $totalPrice += $promotedProduct['price'];
-                }
 
-                if ($this->item['discount_type'] === 'percentage') {
-                    $price = $totalPrice - ($totalPrice * ($this->item['discount_value'] / 100));
-                } elseif ($this->item['discount_type'] === 'fixed') {
-                    $price = $totalPrice - $this->item['discount_value'];
-                }
-            } else {
-                if (isset($this->item['discount']) && $this->item['discount']) {
-                    if ($this->item['discount']['discount_type'] === 'percentage') {
-                        $price = $this->item['price'] - ($this->item['price'] * ($this->item['discount']['discount_value'] / 100));
-                    } elseif ($this->item['discount']['discount_type'] === 'fixed') {
-                        $price = $this->item['price'] - $this->item['discount']['discount_value'];
-                    }
-                } else {
-                    $price = $this->item['price'];
-                }
-            }
+        if ($this->item) {
 
             $cartItem = [
                 'id' => $this->item['id'],
                 'type' => $this->item['type'],
                 'image' => $this->item['images'][0]['path'],
                 'name' => $this->item['type'] === 'product' ? $this->item['name'] : $this->item['title'],
-                'price' => $price,
-                'total_price' => $price * $this->quantity,
+                'price' => $this->item['price'],
+                'total_price' => $this->item['final_price'],
                 'quantity' => $this->quantity,
-                'observation' => $this->observation ?? '',
-                // 'data' => $this->item,
+                'observation' => $this->observation ?? ''
             ];
 
             session()->push('cart', $cartItem);
