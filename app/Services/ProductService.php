@@ -28,7 +28,15 @@ class ProductService
 
     public function findByCategory(string $category): Collection
     {
-        $query = Product::with(['images', 'discount']);
+        $query = Product::select('id', 'category_id', 'name', 'description', 'price')->with([
+            'images' => function ($query) {
+                $query->select('imageable_id', 'path');
+            },
+            'discount' => function ($query) {
+                $query->select('product_id', 'discount_type', 'discount_value', 'start_date', 'end_date');
+            },
+        ]);
+
         if ($category !== 'all') {
 
             $query->where('category_id', $category);

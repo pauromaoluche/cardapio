@@ -26,7 +26,28 @@ class PromotionService
 
     public function getPromotions(string $category): Collection
     {
-        $query = Promotion::with(['products.images', 'images'])
+
+        $query = Promotion::select(
+            'id',
+            'title',
+            'description',
+            'discount_type',
+            'discount_value',
+            'start_date',
+            'end_date',
+            'active'
+        )->with([
+            'images' => function ($query) {
+                $query->select('imageable_id', 'path');
+            },
+            'products' => function ($query) {
+                $query->select('products.id', 'products.category_id', 'products.name', 'products.price')->with([
+                    'images' => function ($query) {
+                        $query->select('imageable_id', 'path');
+                    },
+                ]);
+            },
+        ])
             ->where('active', true)
             ->whereDate('start_date', '<=', now())
             ->whereDate('end_date', '>=', now());
