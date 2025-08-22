@@ -8,7 +8,7 @@ class Cart extends Component
 {
     public $active = false;
     public $quantity = 1;
-    public $cart = [];
+    protected $cart = [];
 
     protected $listeners = [
         'active-cart' => 'activeCart',
@@ -41,7 +41,7 @@ class Cart extends Component
 
     public function offcanvas()
     {
-        $this->dispatch('cart-updated');
+        $this->dispatch('off-canvas');
     }
 
     public function render()
