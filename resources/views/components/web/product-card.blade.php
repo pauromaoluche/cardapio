@@ -2,7 +2,7 @@
 
 <div class="product-card" wire:ignore.self>
     <div class="row g-0 p-3 promotion-row">
-        <div class="col-auto me-3">
+        <div class="col-auto me-3 col-image">
             @if (!empty($item['images']))
                 <img src="{{ asset('storage/' . $item['images'][0]['path']) }}"
                     alt="{{ $item['name'] ?? $item['title'] }}" class="product-image">
@@ -34,10 +34,10 @@
                     <p class="product-description">{{ $item['description'] }}</p>
                 @endif
 
-                <div class="row">
+                <div class="row price-row">
                     @if (!empty($item['discount']) || $item['type'] === 'promotion')
-                        <div class="col-12 prices-container mt-2 d-flex align-items-center justify-content-between">
-                            <div>
+                        <div class="col-12 prices-container mt-2 d-flex align-items-center justify-content-between col-price">
+                            <div class="price-info">
                                 <small class="text-muted text-decoration-line-through me-2">R$
                                     {{ number_format($item['price'], 2, ',', '.') }}</small>
                                 <p class="promotion-price text-success fw-bold mt-1 mb-0">R$
@@ -51,7 +51,7 @@
                             @endif
                         </div>
                         @if ($item['type'] === 'promotion')
-                            <div class="col-12 d-flex justify-content-between align-items-center mt-1">
+                            <div class="col-12 d-flex justify-content-between align-items-center mt-1 col-price">
                                 <span class="discount-info">
                                     @if ($item['discount_type'] === 'percentage')
                                         <small class="text-secondary">Desconto de
@@ -71,7 +71,7 @@
                         @else
                         @endif
                     @else
-                        <div class="col-12 d-flex justify-content-between align-items-center mt-1">
+                        <div class="col-12 d-flex justify-content-between align-items-center mt-1 price-default">
                             <span class="product-price">R$
                                 {{ number_format($item['price'], 2, ',', '.') }}</span>
                             <button type="button" class="add-btn" wire:click="selectProduct('{{ $item['key'] }}')">

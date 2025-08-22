@@ -54,7 +54,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center quantity-modal">
                             @if (!empty($item['discount']) || $item['type'] === 'promotion')
                                 <div class="d-flex align-items-baseline">
                                     <small class="text-muted text-decoration-line-through pe-2">R$
