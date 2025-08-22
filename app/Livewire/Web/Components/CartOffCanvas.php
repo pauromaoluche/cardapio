@@ -50,6 +50,13 @@ class CartOffCanvas extends Component
         }
     }
 
+    public function checkout()
+    {
+        $this->dispatch('close-offcanvas');
+
+        return redirect()->route('checkout');
+    }
+
     private function updateSession()
     {
         session()->put('cart', $this->cartItems);

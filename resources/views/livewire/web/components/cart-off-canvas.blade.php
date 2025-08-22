@@ -51,7 +51,7 @@
                 <strong>R$ {{ $totalPrice }}</strong>
             </div>
             <div class="d-grid mt-3">
-                <a href="{{ route('checkout') }}" class="btn btn-primary btn-lg" wire:navigate>
+                <a wire:click="checkout" class="btn btn-primary btn-lg">
                     Finalizar Pedido
                 </a>
             </div>
