@@ -24,6 +24,17 @@ class PromotionService
         return Promotion::with(['images', 'products'])->where('id', $id)->firstOrFail();
     }
 
+    public function findByIdCheckout($id)
+    {
+        return Promotion::with(['products' => function ($query) {
+            $query->select('products.id', 'products.category_id', 'products.name', 'products.price');
+        },])->where('active', true)
+            ->whereDate('start_date', '<=', now())
+            ->whereDate('end_date', '>=', now())
+            ->where('id', $id)
+            ->firstOrFail();
+    }
+
     public function getPromotions(string $category): Collection
     {
 

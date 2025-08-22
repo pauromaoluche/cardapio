@@ -149,6 +149,10 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/discount/discount.log'),
         ],
+        'checkout' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/checkout/checkout.log'),
+        ],
 
     ],
 ];

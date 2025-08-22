@@ -14,6 +14,9 @@
 
 <body>
     <x-web.hero />
+    @if (session()->has('error'))
+        <x-web.error>{{ session('error') }}</x-web.error>
+    @endif
     <main>
         {{ $slot }}
     </main>

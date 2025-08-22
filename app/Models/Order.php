@@ -14,7 +14,7 @@ class Order extends Model
     protected $fillable = [
         'client_name', 'client_phone', 'address',
         'total_value', 'delivery_fee', 'payment_type',
-        'change_to', 'status_id'
+        'change_to', 'observation', 'pickup_in_store', 'status_id'
     ];
 
     public function status(): BelongsTo

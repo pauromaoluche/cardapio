@@ -179,7 +179,9 @@ return [
         'discount_type' => 'tipo de desconto',
         'price' => 'preço',
         'category_id' => 'categoria',
-        'product_id' => 'produto'
+        'product_id' => 'produto',
+        'payment_method' => 'metodo de pagamento',
+        'change_to' => 'troco para'
     ],
 
 ];

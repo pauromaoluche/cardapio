@@ -2,94 +2,126 @@
 
 namespace App\Livewire\Web\Pages\Checkout;
 
-use App\Models\Order;
-use Illuminate\Support\Facades\DB;
+use App\Livewire\Forms\CheckoutFormValidation;
+use App\Services\AuxService;
+use App\Services\OrderService;
+use App\Services\ProductService;
+use App\Services\PromotionService;
+use Exception;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class CheckoutForm extends Component
 {
-    public $name = '';
-    public $whatsapp = '';
-    public $address = '';
-    public $paymentMethod = 'credit';
+    public CheckoutFormValidation $form;
 
-    // Propriedades para os dados do carrinho
+    public $cartList = [];
+    public $quantity = 0;
+
+    #[Locked]
     public $cartItems = [];
     public $totalPrice = 0;
 
-    // Propriedade para controlar a exibição da mensagem de sucesso
     public $orderFinalized = false;
+
+    protected AuxService $auxService;
+    protected ProductService $productService;
+    protected OrderService $orderService;
+    protected PromotionService $promotionService;
+
+    public function boot(AuxService $auxService, ProductService $productService, PromotionService $promotionService, OrderService $orderService)
+    {
+        $this->productService = $productService;
+        $this->promotionService = $promotionService;
+        $this->auxService = $auxService;
+        $this->orderService = $orderService;
+    }
 
     public function mount()
     {
+        $this->form = new CheckoutFormValidation($this, 'form');
+
         $this->cartItems = session()->get('cart', []);
-        $this->calculateTotalPrice();
+
+        $this->validateAndCalculatePrices();
     }
 
-    private function calculateTotalPrice()
+    /**
+     * Valida os itens do carrinho e calcula os preços totais.
+     *
+     * Atualiza:
+     * - $this->cartItems com os itens validados e calculados.
+     * - $this->totalPrice com o valor total do carrinho.
+     * - $this->cartList com os dados para exibição no frontend.
+     * - $this->quantity com a quantidade total de itens.
+     *
+     * @return void
+     */
+    private function validateAndCalculatePrices()
     {
         $this->totalPrice = 0;
+        $validatedCartItems = [];
+
         foreach ($this->cartItems as $item) {
-            $this->totalPrice += $item['price'] * $item['quantity'];
-        }
-    }
-
-    public function finalizeOrder()
-    {
-        // dd($this->cartItems);
-        // 1. Validação dos dados do formulário
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'whatsapp' => 'nullable|string|max:20',
-            'address' => 'required|string|max:255',
-        ]);
-
-        // 2. Transação de banco de dados para garantir que tudo seja salvo ou nada seja salvo
-        DB::transaction(function () {
-            // 3. Cria o novo pedido na tabela 'orders'
-            $order = Order::create([
-                'client_name' => $this->name,
-                'client_phone' => $this->whatsapp,
-                'address' => $this->address,
-                'total_value' => $this->totalPrice,
-                'delivery_fee' => 0.00,
-                'payment_type' => $this->paymentMethod,
-                'change_to' => 0.00,
-                'status_id' => 1,
-            ]);
-
-            // 4. Anexa os itens (produtos e promoções) ao pedido nas tabelas pivot
-            foreach ($this->cartItems as $item) {
-                $quantity = $item['quantity'];
-
-                // Verifica se o item é um produto ou uma promoção
-                if (isset($item['type']) && $item['type'] === 'promotion') {
-                    // Anexa a promoção à ordem
-                    $order->promotions()->attach($item['id'], [
-                        'quantity' => $quantity,
-                        'observation' => 'teste1'
-                    ]);
-                } else {
-                    // Anexa o produto à ordem com os dados da tabela pivot
-                    $order->products()->attach($item['id'], [
-                        'quantity' => $quantity,
-                        'observation' => 'teste2' // Adiciona uma observação opcional se precisar
-                    ]);
-                }
+            if ($item['type'] === 'promotion') {
+                $dbItem = $this->promotionService->findByIdCheckout($item['id']);
+            } else {
+                $dbItem = $this->productService->findByIdCheckout($item['id']);
             }
 
-        });
+            if ($dbItem) {
+                $dbItemData = $dbItem->toArray();
 
-        // 5. Limpa o carrinho da sessão após o pedido ser finalizado
-        session()->forget('cart');
-        $this->cartItems = [];
-        $this->calculateTotalPrice();
+                $dbItemData['type'] = $item['type'];
+                $dbItemData['quantity'] = $item['quantity'];
 
-        // 6. Exibe a mensagem de sucesso
-        $this->orderFinalized = true;
+                $calculatedItem = $this->auxService->calculateTotalPrice($dbItemData, $item['quantity']);
 
-        // Opcionalmente, emite um evento para o componente do carrinho se ele estiver visível
-        // $this->dispatch('refresh-cart');
+                $this->totalPrice += $calculatedItem['total_price'];
+                $calculatedItem['observation'] = $item['observation'] ?? '';
+                $validatedCartItems[] = $calculatedItem;
+                $this->quantity += $dbItemData['quantity'];
+
+                $this->cartList[] = [
+                    'name' =>  $item['type'] == 'promotion' ? $dbItemData['title'] : $dbItemData['name'],
+                    'quantity' => $dbItemData['quantity'],
+                    'total_price' => $calculatedItem['total_price'],
+                ];
+            } else {
+                session()->flash('error', 'Ocorreu um erro ao finalizar o pedido, se persistir, faça o pedido pelo WhatsApp.');
+                return redirect()->route('index');
+            }
+        }
+        $this->cartItems = $validatedCartItems;
+    }
+
+    /**
+     * Finaliza o pedido:
+     * - Valida o formulário
+     * - Cria o pedido usando OrderService
+     * - Limpa a sessão do carrinho
+     * - Atualiza estado do componente para indicar que o pedido foi finalizado
+     *
+     * @throws Exception Caso ocorra algum erro na criação do pedido.
+     */
+    public function finalizeOrder()
+    {
+        $this->form->validate();
+
+        try {
+            $orderInfo = $this->form->all();
+            $orderInfo['total_value'] = $this->totalPrice;
+
+            $this->orderService->orderCreate($orderInfo, $this->cartItems);
+
+            session()->forget('cart');
+            $this->cartItems = [];
+            $this->validateAndCalculatePrices();
+            $this->orderFinalized = true;
+        } catch (Exception $e) {
+            session()->flash('error', $e->getMessage());
+            return redirect()->route('index');
+        }
     }
 
     public function render()

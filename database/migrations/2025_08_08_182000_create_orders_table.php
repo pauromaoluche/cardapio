@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('client_name');
             $table->string('client_phone');
-            $table->text('address');
+            $table->text('address')->nullable();
+            $table->text('observation')->nullable();
+            $table->boolean('pickup_in_store')->default(0);
             $table->decimal('total_value', 8, 2);
             $table->decimal('delivery_fee', 8, 2)->default(0);
             $table->string('payment_type');

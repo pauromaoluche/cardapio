@@ -26,6 +26,13 @@ class ProductService
         return Product::with(['images', 'discount'])->where('id', $id)->firstOrFail();
     }
 
+    public function findByIdCheckout(int $id): Product
+    {
+        return Product::with(['discount' => function ($query) {
+            $query->select('product_id', 'discount_type', 'discount_value', 'start_date', 'end_date');
+        },])->where('id', $id)->firstOrFail();
+    }
+
     public function findByCategory(string $category): Collection
     {
         $query = Product::select('id', 'category_id', 'name', 'description', 'price')->with([
