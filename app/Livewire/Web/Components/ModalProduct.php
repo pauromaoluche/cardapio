@@ -12,8 +12,6 @@ class ModalProduct extends Component
     public $quantity = 1;
     public $observation;
 
-    public $cart = [];
-
     protected $listeners = [
         'data-modal' => 'dataModal'
     ];
@@ -23,11 +21,6 @@ class ModalProduct extends Component
     public function boot(AuxService $auxService)
     {
         $this->auxService = $auxService;
-    }
-
-    public function mount()
-    {
-        $this->cart = session()->get('cart', []);
     }
 
     public function dataModal($itemData)
@@ -73,7 +66,6 @@ class ModalProduct extends Component
 
             session()->push('cart', $cartItem);
 
-            // dd($cartItem);
             $this->dispatch('active-cart');
             $this->dispatch('close-modal');
 
