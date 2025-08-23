@@ -102,7 +102,7 @@
 
 
                                 <div class="col-12" x-data="{
-                                    paymentMethod: @entangle('form.payment_method'),
+                                    payment_method: @entangle('form.payment_method'),
                                     needChange: false
                                 }" x-show="!pickupInStore">
                                     <h4>Método de pagamento</h4>
@@ -110,7 +110,7 @@
 
                                     <div class="my-3">
                                         <select wire:model.defer="form.payment_method" class="form-control"
-                                            x-model="paymentMethod">
+                                            x-model="payment_method">
                                             <option value="" selected>Selecione o método</option>
                                             <option value="credit">Cartão de Crédito</option>
                                             <option value="debit">Cartão de Débito</option>
@@ -123,14 +123,14 @@
                                     </div>
 
                                     <!-- Checkbox aparece apenas se for dinheiro -->
-                                    <div class="form-check mt-3" x-show="paymentMethod === 'cash'">
+                                    <div class="form-check mt-3" x-show="payment_method === 'cash'">
                                         <input type="checkbox" class="form-check-input" id="needChange"
                                             x-model="needChange">
                                         <label for="needChange" class="form-check-label">Precisa de troco?</label>
                                     </div>
 
                                     <!-- Input aparece apenas se marcar que precisa de troco -->
-                                    <div class="mt-3" x-show="paymentMethod === 'cash' && needChange">
+                                    <div class="mt-3" x-show="payment_method === 'cash' && needChange">
                                         <label for="change_to" class="form-label">Troco para:</label>
                                         <input type="number" id="change_to" class="form-control" min="0"
                                             placeholder="Ex: 100" wire:model.defer="form.change_to">
@@ -139,7 +139,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="alert alert-info mt-3" x-show="paymentMethod === 'pix'">
+                                    <div class="alert alert-info mt-3" x-show="payment_method === 'pix'">
                                         Após o Finalizar o pedido, você ira receber uma mensagem informando seu pedido,
                                         assim que receber envie o comprovante de pagamentom, caso não receba, envie o
                                         comprovante no seguinte WhatsApp:
