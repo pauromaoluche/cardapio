@@ -12,7 +12,7 @@
         <div class="card-header bg-custom text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
                 <i class="bi bi-tags me-2"></i>
-                {{ $discount ? 'Editar' : 'Criar' }} Produto
+                {{ $discount ? 'Editar' : 'Criar' }} Desconto
             </h5>
         </div>
         <div class="card-body">
