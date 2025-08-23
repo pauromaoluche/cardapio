@@ -2,22 +2,34 @@
 
 namespace App\Livewire\Web\Components;
 
+use App\Services\AuxService;
+use App\Services\ProductService;
+use App\Services\PromotionService;
 use Livewire\Component;
 
 class CartOffCanvas extends Component
 {
-
     public $cartItems = [];
     public $totalPrice = 0;
 
     protected $listeners = [
-        'cart-updated' => 'refreshCart'
+        'off-canvas' => 'openOffCanvas'
     ];
+
+    protected ProductService $productService;
+    protected PromotionService $promotionService;
+    protected AuxService $auxService;
+
+    public function boot(ProductService $productService, PromotionService $promotionService, AuxService $auxService)
+    {
+        $this->productService = $productService;
+        $this->promotionService = $promotionService;
+        $this->auxService = $auxService;
+    }
 
     public function decreaseQuantity($itemIndex)
     {
 
-        // Verifica se o índice existe no array e se a quantidade é maior que 1
         if (isset($this->cartItems[$itemIndex]) && $this->cartItems[$itemIndex]['quantity'] > 1) {
             $this->cartItems[$itemIndex]['quantity']--;
             $this->cartItems[$itemIndex]['total_price'] = $this->cartItems[$itemIndex]['final_price'] * $this->cartItems[$itemIndex]['quantity'];
@@ -25,10 +37,8 @@ class CartOffCanvas extends Component
         }
     }
 
-    // Método para aumentar a quantidade de um item
     public function increaseQuantity($itemIndex)
     {
-        // Verifica se o índice existe no array
         if (isset($this->cartItems[$itemIndex])) {
             $this->cartItems[$itemIndex]['quantity']++;
             $this->cartItems[$itemIndex]['total_price'] = $this->cartItems[$itemIndex]['final_price'] * $this->cartItems[$itemIndex]['quantity'];
@@ -64,12 +74,44 @@ class CartOffCanvas extends Component
         $this->calculateTotalPrice();
     }
 
-    public function refreshCart()
+    public function openOffCanvas()
     {
+        $cartItemsFromSession = session()->get('cart', []);
 
-        $this->cartItems = session()->get('cart', []);
+        $validatedCartItems = [];
 
-        $this->calculateTotalPrice();
+        foreach ($cartItemsFromSession as $item) {
+            if ($item['type'] === 'promotion') {
+                $dbItem = $this->promotionService->findByIdCheckout($item['id']);
+            } else {
+                $dbItem = $this->productService->findByIdCheckout($item['id']);
+            }
+
+            if ($dbItem) {
+                $dbItemData = $dbItem->toArray();
+                $dbItemData['type'] = $item['type'];
+
+                $calculatedItem = $this->auxService->calculateTotalPrice($dbItemData, $item['quantity']);
+
+                $validatedCartItems[] = [
+                    'id' => $item['id'],
+                    'type' => $item['type'],
+                    'image' => $item['image'],
+                    'name' => $item['type'] == 'promotion' ? $dbItemData['title'] : $dbItemData['name'],
+                    'price' => $item['type'] == 'promotion' ? $calculatedItem['price'] : $dbItemData['price'],
+                    'final_price' => $calculatedItem['final_price'],
+                    'total_price' => $calculatedItem['total_price'],
+                    'quantity' => $item['quantity'],
+                    'observation' => $item['observation'] ?? ''
+                ];
+            } else {
+                session()->flash('error', 'Ocorreu um ao abrir os pedidos, se persistir, faça o pedido pelo WhatsApp.');
+                return redirect()->route('index');
+            }
+        }
+        $this->cartItems = $validatedCartItems;
+
+        $this->updateSession();
 
         $this->dispatch('open-offcanvas');
     }
