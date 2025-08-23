@@ -142,6 +142,20 @@
     .status-filter {
         display: grid !important;
     }
+
+    .order-header {
+        width: 100%;
+        text-align: center;
+    }
+
+    main {
+        padding: 0.5rem !important;
+    }
+
+    .table-list img {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media (max-width: 350px) {
@@ -191,7 +205,7 @@
         font-size: 0.7rem;
     }
 
-       .table-list th {
+    .table-list th {
         font-size: 0.8rem;
     }
 
@@ -199,7 +213,14 @@
         font-size: 0.7rem;
     }
 
-    .btn-group-form button{
+    .btn-group-form button {
         font-size: 0.8rem !important;
+    }
+
+    form label,
+    form input,
+    form textarea,
+    form select {
+        font-size: 0.9rem !important;
     }
 }

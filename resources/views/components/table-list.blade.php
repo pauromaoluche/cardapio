@@ -10,7 +10,7 @@
 <table class="table table-list">
     <thead>
         <tr>
-            <th class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-none d-sm-table-cell' }}" scope="col">Foto
+            <th class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-sm-table-cell' }}" scope="col">Foto
             </th>
             @foreach ($cols as $index => $col)
                 <th class="{{ in_array($fields[$index], $hiddenFields) ? 'd-none d-md-table-cell' : '' }}" scope="col">
@@ -22,7 +22,7 @@
     <tbody>
         @foreach ($data as $item)
             <tr>
-                <td class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-none d-sm-table-cell' }}">
+                <td class="{{ in_array('image', $hiddenFields) ? 'd-none' : 'd-sm-table-cell' }}">
                     @if ($imageField)
                         <img src="{{ asset('storage/' . data_get($item, $imageField)) }}" class="img-thumbnail img-table-list">
                     @elseif (!empty($item->images))

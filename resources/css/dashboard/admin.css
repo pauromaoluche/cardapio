@@ -107,6 +107,9 @@ body {
     color: white;
     box-shadow: var(--shadow-card);
 }
+main{
+    padding: 1.5rem;
+}
 
 .main-content {
     transition: all 0.3s ease;

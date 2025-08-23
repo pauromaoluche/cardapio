@@ -3,11 +3,11 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div>
+                <div class="order-header">
                     <h1 class="h3 mb-1">Lista de Pedidos</h1>
                     <p class="text-muted-foreground mb-0">Gerencie todos os pedidos da lanchonete</p>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 d-none">
                     <button class="btn btn-outline-secondary">
                         <i class="fas fa-download me-1"></i>Exportar
                     </button>

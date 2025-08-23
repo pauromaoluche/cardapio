@@ -17,7 +17,7 @@
     @include('livewire.dashboard.layouts._sidebar')
     <div class="main-content">
         @include('livewire.dashboard.layouts._header')
-        <main class="p-4">
+        <main>
             {{ $slot }}
         </main>
     </div>
