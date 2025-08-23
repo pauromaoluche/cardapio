@@ -18,6 +18,12 @@
                         <span class="badge promotion ms-2">Promoção</span>
                     @endif
                 </h5>
+                @if ($item['type'] == 'product' && !empty($item['discount']))
+                    <small class="end-date">valido até
+                        {{ date('d/m/Y H:i', strtotime($item['discount']['end_date'])) }}</small>
+                @elseif ($item['type'] === 'promotion')
+                    <small class="end-date">valido até {{ date('d/m/Y H:i', strtotime($item['end_date'])) }}</small>
+                @endif
                 @if ($item['type'] === 'promotion')
                     <p class="promotion-description">{{ $item['description'] }}</p>
 
@@ -36,7 +42,8 @@
 
                 <div class="row price-row">
                     @if (!empty($item['discount']) || $item['type'] === 'promotion')
-                        <div class="col-12 prices-container mt-2 d-flex align-items-center justify-content-between col-price">
+                        <div
+                            class="col-12 prices-container mt-2 d-flex align-items-center justify-content-between col-price">
                             <div class="price-info">
                                 <small class="text-muted text-decoration-line-through me-2">R$
                                     {{ number_format($item['price'], 2, ',', '.') }}</small>

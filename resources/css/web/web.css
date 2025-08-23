@@ -638,3 +638,8 @@ footer {
 .top-image-name span {
     font-weight: 500;
 }
+
+.end-date{
+    font-size: 0.7rem !important;
+    font-weight: normal;
+}
