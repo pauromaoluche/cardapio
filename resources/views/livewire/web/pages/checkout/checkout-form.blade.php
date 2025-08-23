@@ -9,16 +9,14 @@
         </div>
     @else
         @if (!empty($cartItems))
-            <div class="py-5 text-center">
-                <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt=""
-                    width="72" height="57">
+            <div class="py-5 text-center text-lg-start">
                 <h1 class="h2">Finalizar Pedido</h1>
-                <p class="lead">Preencha todos os dados de maneira correta para que possamos enviar o seu pedido.
-                    <br>Todos os campos são obrigatórios, exceto onde indicado como opcional.
+                <p class="fs-6">Preencha todos os dados de maneira correta para que possamos enviar o seu pedido.
                 </p>
             </div>
-            <div class="row g-5">
-                <div class="col-md-5 col-lg-4 order-md-last">
+            <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-4 order-md-last p-0 p-md-2">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">Sua Sacola</span>
                         <span class="badge bg-primary rounded-pill">{{ $quantity }}</span>
@@ -52,10 +50,10 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-md-7 col-lg-8">
-                    <form class="needs-validation" wire:submit.prevent="finalizeOrder">
+                <div class="col-md-7 col-lg-8 card">
+                    <form class="needs-validation card-body" wire:submit.prevent="finalizeOrder">
                         <div class="row g-3">
-                            <h4 class="mb-3">Informações do cliente</h4>
+                            <h4 class="mb-3 ">Informações do cliente</h4>
                             <div class="col-sm-12">
                                 <label for="name" class="form-label">Nome</label>
                                 <input type="text" class="form-control" id="name"
@@ -167,6 +165,7 @@
                         </button>
                     </form>
                 </div>
+            </div>
             </div>
         @else
             <div class="py-5 text-center">
