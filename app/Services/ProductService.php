@@ -40,7 +40,9 @@ class ProductService
                 $query->select('imageable_id', 'path');
             },
             'discount' => function ($query) {
-                $query->select('product_id', 'discount_type', 'discount_value', 'start_date', 'end_date');
+                $query->select('product_id', 'discount_type', 'discount_value', 'start_date', 'end_date')
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now());
             },
         ]);
 
