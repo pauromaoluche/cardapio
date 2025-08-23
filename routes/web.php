@@ -3,6 +3,7 @@
 use App\Livewire\Dashboard\Pages\Auth\AuthForm;
 use App\Livewire\Dashboard\Pages\Category\CategoryForm;
 use App\Livewire\Dashboard\Pages\Category\CategoryList;
+use App\Livewire\Dashboard\Pages\Config\ConfigForm;
 use App\Livewire\Dashboard\Pages\Discount\DiscountForm;
 use App\Livewire\Dashboard\Pages\Discount\DiscountList;
 use App\Livewire\Dashboard\Pages\Home\Index as IndexHome;
@@ -38,6 +39,8 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::get('/descontos', DiscountList::class)->name('discount');
     Route::get('/descontos/adicionar', DiscountForm::class)->name('discount.create');
     Route::get('/desconto/editar/{id}', DiscountForm::class)->name('discount.edit');
+
+    Route::get('/configuracoes', ConfigForm::class)->name('config');
 });
 
 Route::get('/', Index::class)->name('index');

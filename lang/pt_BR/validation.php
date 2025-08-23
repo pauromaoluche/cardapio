@@ -181,7 +181,8 @@ return [
         'category_id' => 'categoria',
         'product_id' => 'produto',
         'payment_method' => 'metodo de pagamento',
-        'change_to' => 'troco para'
+        'change_to' => 'troco para',
+        'phone_to_notify' => 'telefone para notificação'
     ],
 
 ];

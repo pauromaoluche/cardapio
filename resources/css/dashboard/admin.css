@@ -107,7 +107,7 @@ body {
     color: white;
     box-shadow: var(--shadow-card);
 }
-main{
+main {
     padding: 1.5rem;
 }
 
@@ -330,4 +330,47 @@ th {
 .product-item.selected {
     background-color: rgba(255, 107, 53, 0.5);
     border: 1px solid var(--primary-color);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+}
+
+.card-settings{
+    margin-bottom: 2rem;
+}
+
+.card-settings .card-header{
+    font-size: 1.2rem;
+}
+
+.setting-title {
+    font-weight: 500;
+    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
+}
+
+.setting-description {
+    font-size: 0.775rem;
+    color: rgb(95, 95, 95);
+    margin: 0;
+}
+
+.setting-item .form-check {
+    font-size: 1.5rem;
+}
+
+.setting-item .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+
+.setting-item .form-check-input:focus {
+    border-color: var(--primary-glow);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(253, 149, 13, 0.25);
 }

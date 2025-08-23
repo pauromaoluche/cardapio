@@ -55,14 +55,15 @@
                     <span>Descontos</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="#relatorios">
                     <i class="bi bi-graph-up"></i>
                     <span>Relatórios</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
-                <a class="nav-link" href="#configuracoes">
+                <a class="nav-link @if (request()->routeIs('dashboard.config')) active @endif"
+                    href="{{ route('dashboard.config') }}" wire:navigate>
                     <i class="bi bi-gear"></i>
                     <span>Configurações</span>
                 </a>
