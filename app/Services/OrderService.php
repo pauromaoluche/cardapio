@@ -103,4 +103,20 @@ class OrderService
             throw new Exception("Ocorreu um erro ao finaliar o pedido, caso aconteça novamente, faça o pedido pelo WhatsApp.");
         }
     }
+
+    public function getCountsByStatus(array $statusIds): \Illuminate\Support\Collection
+    {
+        return Order::select('status_id', DB::raw('count(*) as count'))
+            ->whereIn('status_id', $statusIds)
+            ->groupBy('status_id')
+            ->get()
+            ->keyBy('status_id');
+    }
+
+    public function getTodayRevenue(): float
+    {
+        return Order::whereDate('created_at', today())
+            ->where('status_id', 4)
+            ->sum('total_value');
+    }
 }

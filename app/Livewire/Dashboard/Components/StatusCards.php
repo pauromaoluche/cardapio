@@ -3,11 +3,19 @@
 namespace App\Livewire\Dashboard\Components;
 
 use App\Models\Order;
+use App\Services\OrderService;
 use Livewire\Component;
 
 class StatusCards extends Component
 {
     public array $data = [];
+
+    protected OrderService $orderService;
+
+    public function boot(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
 
     public function mount()
     {
@@ -38,17 +46,17 @@ class StatusCards extends Component
             ]
         ];
 
-        $this->data = collect($cards)->map(function ($card) {
+        $statusCounts = $this->orderService->getCountsByStatus([1, 2, 3]);
+        $todayRevenue = $this->orderService->getTodayRevenue();
+
+
+        $this->data = collect($cards)->map(function ($card) use ($statusCounts, $todayRevenue) {
             $value = 0;
 
             if ($card['title'] === 'Faturamento Hoje') {
-                $value = Order::where('status_id', $card['status_id'])
-                    ->whereDate('created_at', today())
-                    ->sum('total_value');
-
-                $value = "R$ " . $value;
+                $value = "R$ " . number_format($todayRevenue, 2, ',', '.');
             } else {
-                $value = Order::where('status_id', $card['status_id'])->count();
+                $value = $statusCounts->get($card['status_id'])->count ?? 0;
             }
 
             $card['value'] = $value;
