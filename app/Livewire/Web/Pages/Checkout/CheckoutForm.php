@@ -21,6 +21,7 @@ class CheckoutForm extends Component
     #[Locked]
     public $cartItems = [];
     public $totalPrice = 0;
+    public $totalPriceWithDeliveryFee = 0;
 
     public $orderFinalized = false;
 
@@ -92,6 +93,7 @@ class CheckoutForm extends Component
                 return redirect()->route('index');
             }
         }
+        $this->totalPriceWithDeliveryFee = $this->totalPrice + config_get('delivery_fee');
         $this->cartItems = $validatedCartItems;
     }
 
@@ -110,7 +112,8 @@ class CheckoutForm extends Component
 
         try {
             $orderInfo = $this->form->all();
-            $orderInfo['total_value'] = $this->totalPrice;
+            $orderInfo['total_value'] = $this->totalPriceWithDeliveryFee;
+            $orderInfo['delivery_fee'] = config_get('delivery_fee');
 
             $this->orderService->orderCreate($orderInfo, $this->cartItems);
 

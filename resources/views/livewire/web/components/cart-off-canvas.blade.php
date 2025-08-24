@@ -34,21 +34,24 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                @unless ($loop->last)
+                    <hr>
+                @endunless
             @endforeach
         </div>
         <div class="total-price">
+            <hr>
             <div class="total-items-price d-flex justify-content-between">
-                <span>Frete:</span>
-                <strong>R$ {{ $totalPrice }}</strong>
+                <span>Entrega:</span>
+                <strong>R$ {{ number_format(config_get('delivery_fee'), 2, ',', '.') }}</strong>
             </div>
             <div class="total-items-price d-flex justify-content-between">
                 <span>Valor Pedidos:</span>
-                <strong>R$ {{ $totalPrice }}</strong>
+                <strong>R$ {{ number_format($totalPrice, 2, ',', '.') }}</strong>
             </div>
             <div class="total-items-price d-flex justify-content-between">
                 <span>Valor Total:</span>
-                <strong>R$ {{ $totalPrice }}</strong>
+                <strong>R$ {{ number_format($totalPriceWithDeliveryFee, 2, ',', '.') }}</strong>
             </div>
             <div class="d-grid mt-3">
                 <a wire:click="checkout" class="btn btn-primary btn-lg">

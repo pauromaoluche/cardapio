@@ -11,6 +11,7 @@ class CartOffCanvas extends Component
 {
     public $cartItems = [];
     public $totalPrice = 0;
+    public $totalPriceWithDeliveryFee = 0;
 
     protected $listeners = [
         'off-canvas' => 'openOffCanvas'
@@ -122,6 +123,8 @@ class CartOffCanvas extends Component
         foreach ($this->cartItems as $item) {
             $this->totalPrice += $item['final_price'] * $item['quantity'];
         }
+
+        $this->totalPriceWithDeliveryFee = $this->totalPrice + config_get('delivery_fee');
     }
 
     public function render()
