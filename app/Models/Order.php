@@ -25,14 +25,14 @@ class Order extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
-            ->withPivot('quantity', 'observation')
+            ->withPivot('quantity', 'observation', 'unit_price')
             ->withTimestamps();
     }
 
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class)
-            ->withPivot('quantity', 'observation')
+            ->withPivot('quantity', 'observation', 'unit_price')
             ->withTimestamps();
     }
 }

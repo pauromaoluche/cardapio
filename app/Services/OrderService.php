@@ -76,12 +76,14 @@ class OrderService
                 if (isset($item['type']) && $item['type'] === 'promotion') {
                     $order->promotions()->attach($item['id'], [
                         'quantity' => $quantity,
-                        'observation' => $item['observation']
+                        'observation' => $item['observation'],
+                        'unit_price' => $item['final_price']
                     ]);
                 } else {
                     $order->products()->attach($item['id'], [
                         'quantity' => $quantity,
-                        'observation' => $item['observation']
+                        'observation' => $item['observation'],
+                        'unit_price' => $item['final_price']
                     ]);
                 }
             }
