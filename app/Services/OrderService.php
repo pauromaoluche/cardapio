@@ -64,7 +64,7 @@ class OrderService
                 'observation' => $orderInfo['observation'],
                 'pickup_in_store' => $orderInfo['pickup_in_store'],
                 'total_value' => $orderInfo['total_value'],
-                'delivery_fee' => 0.00,
+                'delivery_fee' => $orderInfo['delivery_fee'],
                 'payment_type' => $orderInfo['payment_method'],
                 'change_to' => $orderInfo['change_to'],
                 'status_id' => 1,
@@ -107,6 +107,7 @@ class OrderService
     public function getCountsByStatus(array $statusIds): \Illuminate\Support\Collection
     {
         return Order::select('status_id', DB::raw('count(*) as count'))
+            ->where('created_at', today())
             ->whereIn('status_id', $statusIds)
             ->groupBy('status_id')
             ->get()
